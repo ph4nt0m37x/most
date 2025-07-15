@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from mostApp import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('index/', views.index, name='index'),
+    path('', views.index, name='index'),
+    path('browse/', views.browse, name='browse'),
 ]
