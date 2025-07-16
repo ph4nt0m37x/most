@@ -2,9 +2,63 @@
 {% load static %}
 {% block content %}
 
-    <div class="container">
 
+        <!-- Sidebar -->
+
+        <div class="col-3 text-start">
+            <div class="row" id="recommendations">
+                <h5 class="py-2">Mutual collaborators</h5>
+                <br>
+                <div class="border rounded-4 mb-2 row">
+                    <div class="col-2 d-flex align-items-center">
+                        <a href="#" class="">
+                            <img src="" class="rounded-circle" width="48" height="48" alt=""/>
+                        </a>
+                    </div>
+                    <div class="col-10 px-4 gap-0">
+                        <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
+                            Lastname</a></p>
+                        <p class="mb-3 small"><a href="#"
+                                                 class="text-decoration-none text-secondary link-body-emphasis">3 mutual
+                            collaborators</a></p>
+                    </div>
+                </div>
+                <br>
+                <div class="border rounded-4 mb-2 row">
+                    <div class="col-2 d-flex align-items-center">
+                        <a href="#" class="">
+                            <img src="" class="rounded-circle" width="48" height="48" alt=""/>
+                        </a>
+                    </div>
+                    <div class="col-10 px-4">
+                        <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
+                            Lastname</a></p>
+                        <p class="mb-3 small"><a href="" class="text-decoration-none text-secondary link-body-emphasis">3
+                            mutual collaborators</a></p>
+                    </div>
+                </div>
+                <br>
+                <div class="border rounded-4 mb-2 row">
+                    <div class="col-2 d-flex align-items-center">
+                        <a href="#" class="">
+                            <img src="" class="rounded-circle" width="48" height="48" alt=""/>
+                        </a>
+                    </div>
+                    <div class="col-10 px-4">
+                        <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
+                            Lastname</a></p>
+                        <p class="mb-3 small"><a href="" class="text-decoration-none text-secondary link-body-emphasis">3
+                            mutual collaborators</a></p>
+                    </div>
+                </div>
+                <div class="row py-3" id="calendar">
+                    <h5>My calendar</h5>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
 
 
 {% endblock %}
