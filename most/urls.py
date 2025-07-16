@@ -19,6 +19,7 @@ from django.urls import path
 
 from mostApp import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name='index'),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('browse/', views.browse, name='browse'),
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
+    path('profile/', views.profile, name='profile'),
 ]
