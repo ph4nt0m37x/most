@@ -7,3 +7,9 @@ def index(request):
 
 def browse(request):
     return render(request, 'browse.html')
+
+def login(request):
+    return render(request, 'login.html')
+
+def register(request):
+    return render(request, 'register.html')
