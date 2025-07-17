@@ -70,6 +70,7 @@ class ApplicationForm(models.Model):
     cv = models.FileField(upload_to='applications/cv')
     post_id = models.CharField(max_length=100, null=True, blank=True)
     app_post = models.ForeignKey(ApplicationPost, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Certification(models.Model):
     name = models.TextField()
@@ -77,11 +78,21 @@ class Certification(models.Model):
     date = models.DateTimeField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
-class Bookmark(models.Model):
+class BookmarkPost(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
+class BookmarkAppPost(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    app_post = models.ForeignKey(ApplicationPost, on_delete=models.CASCADE)
+
 class ProfileAppliedPost(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(ApplicationPost, on_delete=models.CASCADE)
     form = models.ForeignKey(ApplicationForm, on_delete=models.CASCADE)
+
+class Collaboration(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    collaborator = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=100)
+    body = models.TextField()
