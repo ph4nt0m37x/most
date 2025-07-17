@@ -19,17 +19,12 @@ class ProfileCertificationInline(admin.TabularInline):
 
 class  ProfileAdmin(admin.ModelAdmin):
     inlines = [ProfilePostInline, ProfileApplicationPostInline, ProfileCertificationInline]
-    def has_add_permission(self, request):
-        return request.user.is_superuser
-
-    def has_change_permission(self, request, obj=None):
-        return request.user.is_superuser
-
-    def has_delete_permission(self, request, obj=None):
-        return request.user.is_superuser
 
 
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Post)
 admin.site.register(ApplicationPost)
 admin.site.register(Certification)
+admin.site.register(Collaboration)
+admin.site.register(BookmarkPost)
+admin.site.register(BookmarkAppPost)
