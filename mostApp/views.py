@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from mostApp.forms import *
-from mostApp.models import Post, Profile, ApplicationPost, Certification, Bookmark
+from mostApp.models import *
 
 
 # Create your views here.
@@ -24,7 +23,7 @@ def signup(request):
                 user = User.objects.create_user(username=email, email=email, password=password)
                 user.save()
 
-                auth.login(request, auth.authenticate(email=email, password=password))
+                auth.login(request, auth.authenticate(username=email, password=password))
 
                 user_model = User.objects.filter(email=email).first()
                 new_profile = Profile.objects.create(user=user_model, first_name=first_name, last_name=last_name)
@@ -40,7 +39,7 @@ def signin(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        user = auth.authenticate(email=email, password=password)
+        user = auth.authenticate(username=email, password=password)
         if user is not None:
             auth.login(request, user)
             return redirect('/')
@@ -57,10 +56,8 @@ def logout(request):
 
 #@login_required(login_url='signin')
 def index(request):
-    posts = Post.objects.all()
-    application_posts = ApplicationPost.objects.all()
-    all_posts = posts.union(application_posts).order_by('-created')
-    return render(request, 'index.html',  context={'posts': all_posts})
+    posts = Post.objects.all().order_by('-created')
+    return render(request, 'index.html',  context={'posts': posts})
 
 #@login_required(login_url='signin')
 def browse(request):
@@ -82,8 +79,11 @@ def create_post(request):
 
 #@login_required(login_url='signin')
 def post(request, post_id):
+    exists  = False
     post = ApplicationPost.objects.filter(id=post_id).first()
-    return render(request, 'post.html', context={'post': post})
+    if ApplicationForm.objects.filter(user=request.user,  app_post_id=post_id).exists():
+        exists = True
+    return render(request, 'post.html', context={'post': post, 'exists': exists})
 
 #@login_required(login_url='signin')
 def apply(request, post_id):
@@ -92,18 +92,26 @@ def apply(request, post_id):
         if form.is_valid():
             form = form.save(commit=False)
             form.app_post = ApplicationPost.objects.filter(id=post_id).first()
+            form.user = request.user
             form.save()
         return redirect('index')
     form = ApplicationFormModelForm()
     return render(request, 'apply.html', context={'form': form, 'post_id': post_id})
 
 #@login_required(login_url='signin')
-def profile(request, username):
-    pass
-
-#@login_required(login_url='signin')
-def my_profile(request):
-    pass
+def profile(request, user_id):
+    edit = False
+    user = User.objects.filter(id=user_id).first()
+    if request.user == user:  # currently signed-in user
+        profile = Profile.objects.filter(user=request.user).first()
+        edit = True
+    else:
+        profile = Profile.objects.filter(user=user).first()
+    posts = Post.objects.filter(profile=profile)
+    application_posts = ApplicationPost.objects.filter(profile=profile)
+    all_posts = posts.union(application_posts).order_by('-created')
+    certifications = Certification.objects.filter(profile=profile).order_by('-date')
+    return render(request, 'profile.html', context={'profile': profile, 'posts': all_posts, 'certifications': certifications, 'edit': edit})
 
 #@login_required(login_url='signin')
 def edit_profile(request):
@@ -113,15 +121,54 @@ def edit_profile(request):
         if user.is_valid() or profile.is_valid():
             user.save()
             profile.save()
-        return redirect('my_profile')
+        return redirect('profile', Profile.objects.filter(user=request.user).first().id)
     user = UserEditModelForm(instance=request.user)
     profile = ProfileEditModelForm(instance=Profile.objects.get(user=request.user))
     return render(request, 'edit-profile.html', context={'user': user, 'profile': profile})
 
 #@login_required(login_url='signin')
-def bookmark(request):
-    pass
+def bookmark_post(request, post_id):
+    profile = Profile.objects.filter(user=request.user).first()
+    post = Post.objects.filter(id=post_id).first()
+    if BookmarkPost.objects.filter(profile=profile, post=post).exists():
+        BookmarkPost.objects.filter(profile=profile, post=post).delete()
+    else:
+        BookmarkPost.objects.create(profile=profile, post=post).save()
+    return redirect(index)
 
 #@login_required(login_url='signin')
-def collaborations(request):
-    pass
+def bookmark_app_post(request, post_id):
+    profile = Profile.objects.filter(user=request.user).first()
+    post = ApplicationPost.objects.filter(id=post_id).first()
+    if BookmarkAppPost.objects.filter(profile=profile, post=post).exists():
+        BookmarkAppPost.objects.filter(profile=profile, post=post).delete()
+    else:
+        BookmarkAppPost.objects.create(profile=profile, post=post).save()
+    return redirect(index)
+
+#@login_required(login_url='signin')
+def bookmarks(request):
+    bookmarks_post = BookmarkPost.objects.filter(profile=Profile.objects.filter(user=request.user).first())
+    bookmarks_app_post = BookmarkAppPost.objects.filter(profile=Profile.objects.filter(user=request.user).first())
+    return render(request, 'bookmarks.html', context={'bookmarks_post': bookmarks_post, 'bookmarks_app_post': bookmarks_app_post})
+
+#@login_required(login_url='signin')
+def collaborations(request, user_id):
+    user = User.objects.filter(id=user_id).first()
+    collaborations_sent = Collaboration.objects.filter(user=user)
+    collaborations_received = Collaboration.objects.filter(collaborator=Profile.objects.filter(user=user).first())
+    return render(request, 'collaborations.html', {'collaborations_sent': collaborations_sent, 'collaborations_received': collaborations_received})
+
+def collaborate(request, user_id):
+    subject = request.POST['subject']
+    body = request.POST['body']
+    collaboration = Collaboration.objects.filter(user=request.user, collaborator=Profile.objects.filter(user_id=user_id).first())
+    if collaboration.exists():
+        collaboration.update(subject=subject, body=body)
+    else:
+        Collaboration.objects.create(user=request.user, collaborator=Profile.objects.filter(user_id=user_id).first(), subject=subject, body=body)
+    return redirect(profile, user_id)
+
+def applied(request):
+    posts = ApplicationForm.objects.filter(user=request.user)
+    return render(request, 'applied.html', context={'posts': posts})
