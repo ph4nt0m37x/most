@@ -11,11 +11,12 @@
 </head>
 <body>
 
-<header class="p-2 mb-3 border-bottom">
-    <div class="container">
+
+<header class="py-2 mb-3 border-bottom bg-light fixed-top">
+    <div class="px-5">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/index/"
-               class="d-flex align-items-center mb-2 mb-lg-0 pe-3 link-body-emphasis text-decoration-none">
+               class="d-flex align-items-center mb-2 mb-lg-0 px-4 ps-0 link-body-emphasis text-decoration-none">
                 <img src="{% static 'img/logo.png' %}" height="45" width="116" alt="" class="align-content-center"/>
             </a>
             <form class="col-12 col-lg-auto me-lg-auto mb-3 mb-lg-0 me-lg-3" style="width: 400px" role="search">
@@ -50,6 +51,10 @@
         </div>
     </div>
 </header>
+
+<div style="height: 100px">
+
+</div>
 
 {% block content %}
 {% endblock %}
