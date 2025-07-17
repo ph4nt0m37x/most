@@ -14,6 +14,9 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='profiles/', null=True, blank=True)
     about_me = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
 class Post(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to='posts/', null=True, blank=True)
@@ -21,12 +24,18 @@ class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.profile.first_name} {self.profile.last_name} {self.content}'
+
 class ApplicationPost(models.Model):
     title = models.CharField(max_length=100)
     short_description = models.TextField()
     long_description = models.TextField()  # see more section
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.profile.first_name} {self.profile.last_name} {self.title}'
 
 class ApplicationForm(models.Model):
     UNI_CHOICES = [
@@ -78,13 +87,22 @@ class Certification(models.Model):
     date = models.DateTimeField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.profile.first_name} {self.profile.last_name} {self.name}'
+
 class BookmarkPost(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.profile.first_name} {self.profile.last_name} bookmarked {self.post.profile.first_name} {self.post.profile.last_name}\'s post'
+
 class BookmarkAppPost(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     app_post = models.ForeignKey(ApplicationPost, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.profile.first_name} {self.profile.last_name} bookmarked {self.app_post.title}'
 
 class ProfileAppliedPost(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -96,3 +114,6 @@ class Collaboration(models.Model):
     collaborator = models.ForeignKey(Profile, on_delete=models.CASCADE)
     subject = models.CharField(max_length=100)
     body = models.TextField()
+
+    def __str__(self):
+        return f'{self.user.first_name} sent collab to {self.collaborator.first_name}'
