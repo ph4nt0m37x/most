@@ -19,7 +19,7 @@ class ApplicationFormModelForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = ApplicationForm
-        exclude = ['app_post', 'post_id']
+        exclude = ['app_post', 'post_id', 'user']
 
 class ProfileEditModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
