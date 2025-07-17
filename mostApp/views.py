@@ -57,7 +57,8 @@ def logout(request):
 #@login_required(login_url='signin')
 def index(request):
     posts = Post.objects.all().order_by('-created')
-    return render(request, 'index.html',  context={'posts': posts})
+    profiles = Profile.objects.all()
+    return render(request, 'index.html',  context={'posts': posts,  'profiles': profiles})
 
 #@login_required(login_url='signin')
 def browse(request):
@@ -87,6 +88,10 @@ def post(request, post_id):
 
 #@login_required(login_url='signin')
 def apply(request, post_id):
+    apply =  True # if the user tries to apply to their own post
+    profile = Profile.objects.filter(user=request.user).first()
+    if ApplicationPost.objects.filter(id=post_id).first().profile == profile:
+        apply = False
     if request.method == 'POST':
         form = ApplicationFormModelForm(request.POST, request.FILES)
         if form.is_valid():
@@ -96,7 +101,7 @@ def apply(request, post_id):
             form.save()
         return redirect('index')
     form = ApplicationFormModelForm()
-    return render(request, 'apply.html', context={'form': form, 'post_id': post_id})
+    return render(request, 'apply.html', context={'form': form, 'post_id': post_id, 'apply': apply})
 
 #@login_required(login_url='signin')
 def profile(request, user_id):
@@ -121,7 +126,7 @@ def edit_profile(request):
         if user.is_valid() or profile.is_valid():
             user.save()
             profile.save()
-        return redirect('profile', Profile.objects.filter(user=request.user).first().id)
+        return redirect('profile', request.user.pk)
     user = UserEditModelForm(instance=request.user)
     profile = ProfileEditModelForm(instance=Profile.objects.get(user=request.user))
     return render(request, 'edit-profile.html', context={'user': user, 'profile': profile})
