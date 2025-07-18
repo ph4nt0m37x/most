@@ -1,6 +1,10 @@
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.views.generic import ListView
+
 from mostApp.forms import *
 from mostApp.models import *
 
@@ -57,13 +61,44 @@ def logout(request):
 #@login_required(login_url='signin')
 def index(request):
     posts = Post.objects.all().order_by('-created')
+    my_collaborations = Collaboration.objects.filter(user=request.user)
+    collaborations = (Collaboration.objects.filter(collaborator__in=my_collaborations.values_list('collaborator'))).values_list('collaborator')
+    mutual_collaborations = Profile.objects.filter(id__in=collaborations)
     profiles = Profile.objects.all()
-    return render(request, 'index.html',  context={'posts': posts,  'profiles': profiles})
+    return render(request, 'index.html',  context={'posts': posts,  'profiles': profiles, 'mutual': mutual_collaborations})
+
+#@login_required(login_url='signin')
+def search(request):
+    query = request.GET.get('query')
+    profiles = Profile.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    return render(request, 'search.html', context={'profiles': profiles})
 
 #@login_required(login_url='signin')
 def browse(request):
     posts = ApplicationPost.objects.all()
-    return render(request, 'browse.html', context={'posts': posts})
+    tags = Tag.objects.all()
+    return render(request, 'browse.html', context={'posts': posts, 'tags': tags})
+
+#@login_required(login_url='signin')
+def browse_search(request):
+    tags = Tag.objects.all()
+    query = request.GET.get('query')
+    posts = ApplicationPost.objects.filter(Q(title__icontains=query) | Q(short_description__icontains=query) | Q(profile__first_name__icontains=query) | Q(profile__last_name__icontains=query))
+    return render(request, 'browse.html', context={'posts': posts, 'tags': tags})
+
+#@login_required(login_url='signin')
+def browse_filter(request):
+    date_filter = request.GET.get('date_filter')
+    filter = request.GET.getlist('filter')
+    if date_filter is not None:
+        date = date_filter.split('-')
+        posts = ApplicationPost.objects.filter(created__year__lte=date[0], created__month__lte=date[1], created__day__lte=date[2])
+    if filter[0] == 'all':
+        posts = ApplicationPost.objects.all()
+    else:
+        posts = posts.filter(tag__name__in=filter)
+    tags = Tag.objects.all()
+    return render(request, 'browse.html', context={'posts': posts, 'tags': tags, 'filter': filter[0], 'date_filter': date_filter})
 
 #@login_required(login_url='signin')
 def create_post(request):
@@ -81,14 +116,20 @@ def create_post(request):
 #@login_required(login_url='signin')
 def post(request, post_id):
     exists  = False
+    deadline = False  # if the deadline has passed
     post = ApplicationPost.objects.filter(id=post_id).first()
+    post_deadline = post.deadline
+    print(post_deadline)
+    if post_deadline is not None:
+        if post_deadline.date().__lt__(datetime.today().date()):
+            deadline = True
     if ApplicationForm.objects.filter(user=request.user,  app_post_id=post_id).exists():
         exists = True
-    return render(request, 'post.html', context={'post': post, 'exists': exists})
+    return render(request, 'post.html', context={'post': post, 'exists': exists, 'deadline': deadline})
 
 #@login_required(login_url='signin')
 def apply(request, post_id):
-    apply =  True # if the user tries to apply to their own post
+    apply = True # if the user tries to apply to their own post
     profile = Profile.objects.filter(user=request.user).first()
     if ApplicationPost.objects.filter(id=post_id).first().profile == profile:
         apply = False
@@ -112,11 +153,10 @@ def profile(request, user_id):
         edit = True
     else:
         profile = Profile.objects.filter(user=user).first()
-    posts = Post.objects.filter(profile=profile)
-    application_posts = ApplicationPost.objects.filter(profile=profile)
-    all_posts = posts.union(application_posts).order_by('-created')
+    posts = Post.objects.filter(profile=profile).order_by('-created')
+    application_posts = ApplicationPost.objects.filter(profile=profile).order_by('-created')
     certifications = Certification.objects.filter(profile=profile).order_by('-date')
-    return render(request, 'profile.html', context={'profile': profile, 'posts': all_posts, 'certifications': certifications, 'edit': edit})
+    return render(request, 'profile.html', context={'profile': profile, 'posts': posts, 'certifications': certifications, 'edit': edit})
 
 #@login_required(login_url='signin')
 def edit_profile(request):
@@ -164,6 +204,7 @@ def collaborations(request, user_id):
     collaborations_received = Collaboration.objects.filter(collaborator=Profile.objects.filter(user=user).first())
     return render(request, 'collaborations.html', {'collaborations_sent': collaborations_sent, 'collaborations_received': collaborations_received})
 
+#@login_required(login_url='signin')
 def collaborate(request, user_id):
     subject = request.POST['subject']
     body = request.POST['body']
@@ -174,6 +215,7 @@ def collaborate(request, user_id):
         Collaboration.objects.create(user=request.user, collaborator=Profile.objects.filter(user_id=user_id).first(), subject=subject, body=body)
     return redirect(profile, user_id)
 
+#@login_required(login_url='signin')
 def applied(request):
     posts = ApplicationForm.objects.filter(user=request.user)
     return render(request, 'applied.html', context={'posts': posts})
