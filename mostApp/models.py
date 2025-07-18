@@ -17,6 +17,12 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.name}'
+
 class Post(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to='posts/', null=True, blank=True)
@@ -33,6 +39,8 @@ class ApplicationPost(models.Model):
     long_description = models.TextField()  # see more section
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(null=True, blank=True)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.profile.first_name} {self.profile.last_name} {self.title}'
@@ -116,4 +124,4 @@ class Collaboration(models.Model):
     body = models.TextField()
 
     def __str__(self):
-        return f'{self.user.first_name} sent collab to {self.collaborator.first_name}'
+        return f'{Profile.objects.filter(user=self.user).first()} sent collaboration to {self.collaborator.first_name}'
