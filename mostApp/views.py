@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
-from django.views.generic import ListView
 
 from mostApp.forms import *
 from mostApp.models import *
@@ -102,6 +101,15 @@ def browse_filter(request):
 
 #@login_required(login_url='signin')
 def create_post(request):
+    content = request.POST.get('content')
+    image = request.POST.get('image')
+    location = request.POST.get('location')
+    post = Post.objects.create(content=content, image=image, location=location, profile=Profile.objects.get(user=request.user))
+    post.save()
+    return redirect('index')
+
+#@login_required(login_url='signin')
+def create_app_post(request):
     if request.method == 'POST':
         form = ApplicationPostModelForm(request.POST, request.FILES)
         if form.is_valid():
@@ -119,7 +127,6 @@ def post(request, post_id):
     deadline = False  # if the deadline has passed
     post = ApplicationPost.objects.filter(id=post_id).first()
     post_deadline = post.deadline
-    print(post_deadline)
     if post_deadline is not None:
         if post_deadline.date().__lt__(datetime.today().date()):
             deadline = True

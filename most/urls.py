@@ -29,6 +29,7 @@ urlpatterns = [
     path('signin/', signin, name='signin'),
     path('logout/', logout, name='logout'),
     path('create/', create_post, name='create_post'),
+    path('create/apply', create_app_post, name='create_app_post'),
     path('post/apply/<post_id>', apply, name='apply'),
     path('post/<post_id>', post, name='post'),
     path('profile/edit', edit_profile, name='edit_profile'),
