@@ -39,4 +39,7 @@ urlpatterns = [
     path('bookmark/post/apply/<post_id>', bookmark_app_post, name='bookmark_app_post'),
     path('collaborate/<user_id>', collaborate, name='collaborate'),
     path('post/applied/', applied, name='applied'),
+    path('search/', search, name='search'),
+    path('browse/filter/', browse_filter, name='browse_filter'),
+    path('browse/search/', browse_search, name='browse_search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

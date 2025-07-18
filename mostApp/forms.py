@@ -10,7 +10,7 @@ class ApplicationPostModelForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = ApplicationPost
-        exclude = ['profile', 'created_at', 'apply_form']
+        exclude = ['profile', 'created', 'apply_form']
 
 class ApplicationFormModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -38,4 +38,4 @@ class UserEditModelForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['email']
