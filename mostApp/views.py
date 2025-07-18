@@ -16,3 +16,9 @@ def register(request):
 
 def profile(request):
     return render(request, 'profile.html')
+
+def details(request):
+    return render(request, 'details.html')
+
+def collaborations(request):
+    return render(request, 'collaborations.html')
