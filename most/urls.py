@@ -30,4 +30,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path ('details/', views.details, name='details'),
     path('collaborations/', views.collaborations, name='collaborations'),
+    path('bookmarks/', views.bookmarks, name='bookmarks'),
 ]

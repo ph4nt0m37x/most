@@ -22,3 +22,6 @@ def details(request):
 
 def collaborations(request):
     return render(request, 'collaborations.html')
+
+def bookmarks(request):
+    return render(request, 'bookmarks.html')
