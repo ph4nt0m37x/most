@@ -16,19 +16,34 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
+from mostApp.views import *
 
 from mostApp import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', views.index, name='index'),
-    path('', views.index, name='index'),
-    path('browse/', views.browse, name='browse'),
-    path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    path('profile/', views.profile, name='profile'),
-    path ('details/', views.details, name='details'),
-    path('collaborations/', views.collaborations, name='collaborations'),
-    path('bookmarks/', views.bookmarks, name='bookmarks'),
-]
+    path("", index, name='index'),
+    path("browse/", browse, name='browse'),
+    path('signup/', signup, name='signup'),
+    path('signin/', signin, name='signin'),
+    path('logout/', logout, name='logout'),
+    path('create/', create_post, name='create_post'),
+    path('create/apply', create_app_post, name='create_app_post'),
+    path('post/apply/<post_id>', apply, name='apply'),
+    path('post/<post_id>', post, name='post'),
+    path('profile/edit', edit_profile, name='edit_profile'),
+    path('profile/<user_id>', profile, name='profile'),
+    path('collaborations/<user_id>', collaborations, name='collaborations'),
+    path('bookmarks/', bookmarks, name='bookmarks'),
+    path('bookmark/post/<post_id>', bookmark_post, name='bookmark_post'),
+    path('bookmark/post/apply/<post_id>', bookmark_app_post, name='bookmark_app_post'),
+    path('collaborate/<user_id>', collaborate, name='collaborate'),
+    path('post/applied/', applied, name='applied'),
+    path('search/', search, name='search'),
+    path('browse/filter/', browse_filter, name='browse_filter'),
+    path('browse/search/', browse_search, name='browse_search'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
