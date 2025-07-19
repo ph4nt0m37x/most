@@ -54,7 +54,8 @@
                             </svg>
                         </button>
                         {# Collaborate Button #}
-                        {#                    <button class="btn rounded-pill text-light" style="background-color: #436850">#}
+{#                                            <button class="btn rounded-pill text-light" data-bs-toggle="modal"#}
+                        {#                                    data-bs-target="#popupModal" style="background-color: #436850">#}
                         {#                        Collaborate#}
                         {#                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">-->#}
                         {#                           <g clip-path="url(#clip0_103_3334)">#}
@@ -69,7 +70,66 @@
                         {#                    </button>#}
                     </div>
                 </div>
+                <!-- Collaboration Modal -->
+                    <div class="modal fade" id="popupModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content px-3">
+                                <div class="modal-header pt-3 pb-2">
+                                    <h5 class="modal-title fw-semibold px-3">Collaboration Request</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
 
+                                    <div class="row p-3">
+                                        <label for="subject" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="subject"
+                                               aria-describedby="emailHelp" placeholder="Write your title here...">
+
+                                    </div>
+                                    <div class="row p-3">
+                                        <label for="body" class="form-label">Description</label>
+                                            <textarea class="form-control" id="body" placeholder="Write your description here..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="row p-3 pt-1 pb-4">
+                                    <div class="col-4 d-flex align-items-center justify-content-center">
+                                        <a href="" class="text-decoration-none mb-0" style="color: #436850"><p class="mb-0">
+                                            Cancel</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-4"></div>
+                                    <div class="col-4 d-flex align-items-center justify-content-center">
+                                        <button type="submit" class="btn text-light" data-bs-toggle="modal"
+                                                data-bs-target="#successModal" style="background-color: #436850">Send
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Success Modal -->
+                    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered w-25">
+                            <div class="modal-content py-4 mx-0">
+                                <div class="row">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45" fill="none">
+                                        <circle cx="22.5" cy="22.5" r="16.875" stroke="#436850" stroke-width="3"></circle>
+                                        <path d="M15 22.5L20.625 28.125L30 16.875" stroke="#436850" stroke-width="3"></path>
+                                    </svg>
+                                </div>
+                                <div class="row">
+                                    <h2 class="text-center fw-semibold" style="color: #436850">Success!</h2>
+                                </div>
+                                <div class="row">
+                                    <p class="text-center text-secondary">Your collaboration request has been sent.</p>
+                                </div>
+                                <div class="row d-flex align-items-center justify-content-center">
+                                    <button type="submit" class="btn text-light text-center w-25" data-bs-dismiss="modal" style="background-color: #436850">OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <!-- Tabs -->
                 <div class="bd-example-snippet bd-code-snippet ">
                     <div class="bd-example m-0 border-0">
