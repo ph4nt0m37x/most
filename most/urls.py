@@ -21,6 +21,9 @@ from django.conf.urls.static import static
 
 from mostApp.views import *
 
+from mostApp import views
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", index, name='index'),
