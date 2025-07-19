@@ -2,7 +2,230 @@
 {% load static %}
 {% block content %}
 
-
     <!--Main Content-->
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="d-flex align-items-center">
+                    <p class="mb-0">Not sure where to begin?</p>
+                    <a href="/tutorial/" class="p-3 nav-link fw-semibold" style="color: #436850">
+                        Get started.
+                    </a>
+                </div>
+                <hr/>
+                <article class="my-3" id="accordion">
+                    <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+                        <h3 class="text-center fw-semibold p-3">FAQ</h3>
+                        <div>
+                            <div class="bd-example-snippet bd-code-snippet">
+                                <div class="bd-example m-0 border-0">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button btn-outline-secondary" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseOne" aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                                    What happens after I send a collaboration request to someone?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                                 data-bs-parent="#accordionExample" style="">
+                                                <div class="accordion-body">
+                                                    The request goes to their inbox and waits for their response. They
+                                                    can
+                                                    choose to accept or decline. You’ll get notified either way. You can
+                                                    only have one active collaboration request per person at a time.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseTwo" aria-expanded="false"
+                                                        aria-controls="collapseTwo">
+                                                    Can I message other users directly?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    To maintain professionalism, especially when connecting with mentors
+                                                    or
+                                                    professors, we’ve limited communication to collaboration invites or
+                                                    shared contact info. This helps prevent spam and keeps the platform
+                                                    focused on meaningful, respectful connections.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                    Will I get notified when someone applies to my collaboration?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseThree" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    Yes! You’ll be notified when someone applies, and you can view their
+                                                    application details from your collaboration post. You can then
+                                                    choose to
+                                                    accept or ignore their request.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseFour" aria-expanded="false"
+                                                        aria-controls="collapseFour">
+                                                    Where can I see the status of my applications?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseFour" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    All applications you’ve submitted are visible in the "My
+                                                    Applications"
+                                                    section. You’ll see whether they’re pending, accepted, or closed.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseFive" aria-expanded="false"
+                                                        aria-controls="collapseFive">
+                                                    Who can send collaboration requests?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseFive" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    Any registered user (student, mentor, or organization) can send a
+                                                    direct
+                                                    collaboration request. Just visit someone’s profile and click “Send
+                                                    Collaboration”.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseSix" aria-expanded="false"
+                                                        aria-controls="collapseSix">
+                                                    Can I invite someone to my collaboration post directly?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseSix" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    Not directly through the post, but you can visit their profile and
+                                                    send
+                                                    them a personal collaboration request instead.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseSeven" aria-expanded="false"
+                                                        aria-controls="collapseSeven">
+                                                    Who can see my profile?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseSeven" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    Your profile is visible to other registered users. It helps others
+                                                    know
+                                                    what you're working on, your interests, and whether you might be a
+                                                    good
+                                                    fit for a project.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseEight" aria-expanded="false"
+                                                        aria-controls="collapseEight">
+                                                    Can I edit my profile later?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseEight" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    Yes! You can update your profile at any time, add new skills,
+                                                    certifications, change your contact info, or write a new “About Me”.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseNine" aria-expanded="false"
+                                                        aria-controls="collapseNine">
+                                                    How do deadlines work for collaboration posts?
+                                                </button>
+                                            </h4>
+                                            <div id="collapseNine" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample"
+                                                 style="">
+                                                <div class="accordion-body">
+                                                    Each post can have an optional “Apply by” date. After that date,
+                                                    users
+                                                    won’t be able to submit applications, and the post will be marked as
+                                                    closed.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h4 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseTen" aria-expanded="false"
+                                                        aria-controls="collapseTen">
+                                                    I have a different problem...
+                                                </button>
+                                            </h4>
+                                            <div id="collapseTen" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExample" style="">
+                                                <div class="accordion-body">
+                                                    Reach out to us at help@most.com. We’re just two students, so we’ll
+                                                    get
+                                                    back to you as soon as we can!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
 
 {% endblock %}
