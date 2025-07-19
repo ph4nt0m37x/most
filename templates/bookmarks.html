@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<!--Main Content-->
+
+    <!--Main Content-->
 
 <div class="container mt-5">
-    <nav class="row">
+    <div class="row">
         <div class="col-2 d-flex align-items-center justify-content-end">
-            <a href="">
+            <a href="" class="pb-4 mb-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                      fill="none">
                     <path d="M10.6662 19L3.99951 12M3.99951 12L10.6662 5M3.99951 12L19.9995 12"
@@ -14,15 +15,20 @@
                 </svg>
             </a>
         </div>
-        <div class="nav mb-3 d-flex align-items-center col-8 justify-content-between" id="nav-tab" role="tablist">
-            <button class="nav-link btn text-start active mx-5" id="nav-collaborations-tab" data-bs-toggle="tab"
+        <div class="col-8"><h3 class="fw-semibold">Bookmarks</h3><hr/></div>
+        <div class="col-2"></div>
+    </div>
+    <nav class="row py-2">
+        <div class="col-2"></div>
+        <div class="col-8 nav d-flex justify-content-around align-items-center" id="nav-tab" role="tablist">
+            <button class="btn text-center active shadow-sm btn-outline-success rounded-pill" id="nav-collaborations-tab" data-bs-toggle="tab"
                     data-bs-target="#nav-collaborations"
-                    type="button" role="tab" aria-controls="nav-collaborations" aria-selected="false" tabindex="-1"
-                    style="color: #436850">Collaborations
+                    type="button" role="tab" aria-controls="nav-collaborations" aria-selected="false" tabindex="-1">
+                Collaborations
             </button>
-            <button class="nav-link text-end mx-5" id="nav-posts-tab" data-bs-toggle="tab"
+            <button class="btn text-center shadow-sm btn-outline-success rounded-pill" id="nav-posts-tab" data-bs-toggle="tab"
                     data-bs-target="#nav-posts" type="button" role="tab" aria-controls="nav-posts"
-                    aria-selected="true" style="color: #436850">Posts
+                    aria-selected="true">Posts
             </button>
         </div>
         <div class="col-2">
