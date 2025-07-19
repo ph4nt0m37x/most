@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% load filters %}
 
 
 <div class="container mt-5">
     <nav class="row">
         <div class="col-2 d-flex align-items-center justify-content-end">
-            <a href="">
+            <a href="{{ request.META.HTTP_REFERER }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                      fill="none">
                     <path d="M10.6662 19L3.99951 12M3.99951 12L10.6662 5M3.99951 12L19.9995 12"
@@ -30,224 +31,83 @@
 
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-            <div class="row d-flex justify-content-center">
-                <div class="col-2"></div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
+            {% for collab in collaborations_sent %}
+                <div class="row d-flex justify-content-start"><div class="col-2"></div>
+                    <div class="col-3 pt-3 pb-2 mx-5">
+                        <div class="border rounded-4 mb-2 row">
+                            <div class="col-2 d-flex align-items-center">
+                                <a href="{% url 'profile' collab.collaborator.user_id %}" class="">
+                                    <img src="" class="rounded-circle" width="48" height="48" alt="">
+                                </a>
+                            </div>
+                            <div class="col-10 px-4">
+                                <p class="mb-0 mt-3">
+                                    <a href="#" class="text-decoration-none text-body-emphasis">
+                                        {{ collab.collaborator.first_name }} {{ collab.collaborator.last_name }}
+                                    </a>
+                                </p>
+                                <p class="mb-3 small">
+                                    <a href="" class="text-decoration-none text-secondary link-body-emphasis">
+                                        3 mutual collaborators
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-2"></div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
+            {% endfor %}
+            {% for collab in collaborations_received %}
+                <div class="row d-flex justify-content-start"><div class="col-2"></div>
+                    <div class="col-3 pt-3 pb-2 mx-5">
+                        <div class="border rounded-4 mb-2 row">
+                            <div class="col-2 d-flex align-items-center">
+                                <a href="{% url 'profile' collab.user.id %}" class="">
+                                    <img src="" class="rounded-circle" width="48" height="48" alt="">
+                                </a>
+                            </div>
+                            <div class="col-10 px-4">
+                                <p class="mb-0 mt-3">
+                                    <a href="#" class="text-decoration-none text-body-emphasis">
+                                        {{ collab.user.id|get_profile_name }}
+                                    </a>
+                                </p>
+                                <p class="mb-3 small">
+                                    <a href="" class="text-decoration-none text-secondary link-body-emphasis">
+                                        3 mutual collaborators
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-2"></div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
+            {% endfor %}
         </div>
         <div class="tab-pane fade active show" id="nav-mutual" role="tabpanel" aria-labelledby="nav-mutual-tab">
-            <div class="row d-flex justify-content-center">
-                <div class="col-2"></div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
+            {% for collab in mutual %}
+                <div class="row d-flex justify-content-start"><div class="col-2"></div>
+                    <div class="col-3 pt-3 pb-2 mx-5">
+                        <div class="border rounded-4 mb-2 row">
+                            <div class="col-2 d-flex align-items-center">
+                                <a href="{% url 'profile' collab.user.id %}" class="">
+                                    <img src="" class="rounded-circle" width="48" height="48" alt="">
+                                </a>
+                            </div>
+                            <div class="col-10 px-4">
+                                <p class="mb-0 mt-3">
+                                    <a href="#" class="text-decoration-none text-body-emphasis">
+                                        {{ collab.user.id|get_profile_name }}
+                                    </a>
+                                </p>
+                                <p class="mb-3 small">
+                                    <a href="" class="text-decoration-none text-secondary link-body-emphasis">
+                                        3 mutual collaborators
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-2"></div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-2"></div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 pt-3 pb-2 mx-5">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="48" height="48" alt="">
-                            </a>
-                        </div>
-                        <div class="col-10 px-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

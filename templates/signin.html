@@ -11,16 +11,17 @@
 
 <div class="container p-5 col-6">
     <div class="d-flex justify-content-center align-items-center p-5">
-        <form class="border rounded-5 p-5" style="width: 350px;" role="form">
+        <form action="{% url 'signin' %}" method="post" class="border rounded-5 p-5" style="width: 350px;" role="form">
+            {% csrf_token %}
             <div class="text-center">
                 <h3 class="fw-bold">Sign in</h3>
             </div>
             <hr/>
             <div class="mb-1 p-2">
-                <input type="email" class="form-control rounded-3" placeholder="Email" aria-label="Email">
+                <input name='email' type="email" class="form-control rounded-3" placeholder="Email" aria-label="Email">
             </div>
             <div class="mb-1 p-2">
-                <input type="password" class="form-control rounded-3" placeholder="Password" aria-label="Password">
+                <input name="password" type="password" class="form-control rounded-3" placeholder="Password" aria-label="Password">
             </div>
             <div class="mb-2 text-start p-2">
                 <p class=""><a href="#" class="btn-link" style="color: #436850">Forgot password?</a></p>
@@ -31,7 +32,7 @@
 
         </form>
     </div>
-    <p class="text-center">New to Most? <a href="/register/" class="btn-link" style="color: #436850">Join now</a></p>
+    <p class="text-center">New to Most? <a href="{% url 'signup' %}" class="btn-link" style="color: #436850">Join now</a></p>
 </div>
 
 </body>

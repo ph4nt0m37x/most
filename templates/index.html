@@ -9,19 +9,23 @@
         <div class="col-2 text-start">
         </div>
         <div class="col-7 text-center">
+            {% for post in posts %}
             <div class="row pt-3 pb-2 px-5">
                 <div class="border rounded-4">
                     <div class="row pt-3">
                         <div class="col-10 d-flex align-items-center ps-3">
                             <div class="px-3">
-                                <a href="#" class="">
-                                    <img src="" class="rounded-circle" width="48" height="48" alt=""/>
+                                <a href="{% url 'profile' post.profile.user_id %}" class="">
+                                    <img src="{{ post.profile.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
                                 </a>
                             </div>
                             <div class="text-start">
-                                <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                    Lastname</a></p>
-                                <p class="mb-3 small text-secondary">3h ago</p>
+                                <p class="mb-0 mt-3">
+                                    <a href="{% url 'profile' post.profile.user_id %}" class="text-decoration-none text-body-emphasis">
+                                    {{ post.profile.first_name }} {{ post.profile.last_name }}
+                                    </a>
+                                </p>
+                                <p class="mb-3 small text-secondary">{{ post.created.date}}</p>
                             </div>
                         </div>
 
@@ -35,21 +39,7 @@
 
                     <div class="row">
                         <p class="text-start px-5 py-2">
-                            Had the chance to work on a small project this month with Sara Ilievska and Ivona
-                            Stojanovska — and honestly, it reminded me how powerful it is when students from different
-                            fields come together.
-
-                            I’m studying software engineering, and I’m used to working with other devs, but this time, I
-                            saw how much stronger our ideas became when we mixed perspectives. Ivona helped with clear
-                            content, Sara brought structure to our messaging, and I did the tech stuff. It worked.
-
-                            We need more of this. More mixing. More sharing between faculties. Not just because it’s
-                            useful, but because it’s fun, and real, and opens your mind.
-
-                            If you’ve been thinking of collaborating with someone outside your field — just do it.
-
-                            Here's a link to our translation mini-app:
-                            github.com/dimitarpetrovski/translato
+                            {{ post.content }}
                         </p>
                     </div>
                     <div class="row d-flex text-end">
@@ -79,247 +69,82 @@
                             4
                         </div>
                         <div class="col-1 pe-4">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
-                                     fill="none">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M4.68477 3.08065e-07H7.88662C8.4616 -8.80292e-06 8.93614 -1.62955e-05 9.32271 0.0315675C9.72421 0.0643712 10.0933 0.134774 10.4399 0.31141C10.9776 0.585334 11.4146 1.02242 11.6886 1.56003C11.8652 1.90669 11.9356 2.27577 11.9684 2.67727C12 3.06384 12 3.53839 12 4.11337V14.2857C12 14.5647 11.8376 14.8181 11.5842 14.9346C11.3307 15.0512 11.0326 15.0096 10.8208 14.828L6.28569 10.9408L1.75055 14.828C1.53875 15.0096 1.24066 15.0512 0.987228 14.9346C0.733799 14.8181 0.571412 14.5647 0.571412 14.2857L0.571411 4.11336C0.571402 3.53838 0.571395 3.06383 0.602979 2.67727C0.635782 2.27577 0.706185 1.90669 0.882822 1.56003C1.15675 1.02242 1.59383 0.585334 2.13144 0.31141C2.47811 0.134774 2.84718 0.0643712 3.24868 0.0315675C3.63525 -1.62955e-05 4.10979 -8.80292e-06 4.68477 3.08065e-07ZM3.36501 1.45539C3.05185 1.48098 2.89171 1.52735 2.78 1.58428C2.51119 1.72124 2.29265 1.93978 2.15569 2.20858C2.09877 2.3203 2.05239 2.48044 2.0268 2.7936C2.00054 3.11509 1.99998 3.53101 1.99998 4.14285V12.7327L5.82084 9.45767C6.08834 9.22839 6.48305 9.22839 6.75054 9.45767L10.5714 12.7327V4.14286C10.5714 3.53101 10.5708 3.11509 10.5446 2.7936C10.519 2.48044 10.4726 2.3203 10.4157 2.20858C10.2787 1.93978 10.0602 1.72124 9.79139 1.58428C9.67968 1.52735 9.51953 1.48098 9.20638 1.45539C8.88489 1.42913 8.46896 1.42857 7.85712 1.42857H4.71427C4.10242 1.42857 3.6865 1.42913 3.36501 1.45539Z"
-                                          fill="#13121B"></path>
-                                </svg>
+                            <a href="{% url 'bookmark_post' post.id %}" onclick="" class="text-decoration-none">
+                                {% if bookmarked %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
+                                         fill="none">
+                                        <path d="M7.88684 0C8.46149 -9.14525e-06 8.93596 -0.000299274 9.32239 0.03125C9.72374 0.0640501 10.093 0.134999 10.4396 0.311523C10.977 0.585391 11.4147 1.02216 11.6886 1.55957C11.8652 1.90622 11.9361 2.27626 11.9689 2.67773C12.0004 3.06419 12.0001 3.53859 12.0001 4.11328V14.2861C12 14.5649 11.8373 14.818 11.5841 14.9346C11.3307 15.0511 11.0322 15.0096 10.8204 14.8281L6.28528 10.9404L1.75012 14.8281C1.53841 15.0094 1.24069 15.0509 0.987427 14.9346C0.734127 14.8181 0.571578 14.5649 0.571411 14.2861V4.11328C0.571402 3.53858 0.571119 3.0642 0.602661 2.67773C0.635465 2.27624 0.7063 1.90624 0.882935 1.55957C1.1568 1.02231 1.59372 0.585383 2.13098 0.311523C2.47762 0.134923 2.84769 0.0640506 3.24915 0.03125C3.63559 -0.000282439 4.11005 -9.10559e-06 4.68469 0H7.88684Z"
+                                              fill="#13121B"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
+                                         fill="none">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M4.68477 3.08065e-07H7.88662C8.4616 -8.80292e-06 8.93614 -1.62955e-05 9.32271 0.0315675C9.72421 0.0643712 10.0933 0.134774 10.4399 0.31141C10.9776 0.585334 11.4146 1.02242 11.6886 1.56003C11.8652 1.90669 11.9356 2.27577 11.9684 2.67727C12 3.06384 12 3.53839 12 4.11337V14.2857C12 14.5647 11.8376 14.8181 11.5842 14.9346C11.3307 15.0512 11.0326 15.0096 10.8208 14.828L6.28569 10.9408L1.75055 14.828C1.53875 15.0096 1.24066 15.0512 0.987228 14.9346C0.733799 14.8181 0.571412 14.5647 0.571412 14.2857L0.571411 4.11336C0.571402 3.53838 0.571395 3.06383 0.602979 2.67727C0.635782 2.27577 0.706185 1.90669 0.882822 1.56003C1.15675 1.02242 1.59383 0.585334 2.13144 0.31141C2.47811 0.134774 2.84718 0.0643712 3.24868 0.0315675C3.63525 -1.62955e-05 4.10979 -8.80292e-06 4.68477 3.08065e-07ZM3.36501 1.45539C3.05185 1.48098 2.89171 1.52735 2.78 1.58428C2.51119 1.72124 2.29265 1.93978 2.15569 2.20858C2.09877 2.3203 2.05239 2.48044 2.0268 2.7936C2.00054 3.11509 1.99998 3.53101 1.99998 4.14285V12.7327L5.82084 9.45767C6.08834 9.22839 6.48305 9.22839 6.75054 9.45767L10.5714 12.7327V4.14286C10.5714 3.53101 10.5708 3.11509 10.5446 2.7936C10.519 2.48044 10.4726 2.3203 10.4157 2.20858C10.2787 1.93978 10.0602 1.72124 9.79139 1.58428C9.67968 1.52735 9.51953 1.48098 9.20638 1.45539C8.88489 1.42913 8.46896 1.42857 7.85712 1.42857H4.71427C4.10242 1.42857 3.6865 1.42913 3.36501 1.45539Z"
+                                              fill="#13121B"></path>
+                                    </svg>
+                                {% endif %}
                             </a>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
-                                 fill="none">
-                                <path d="M7.88684 0C8.46149 -9.14525e-06 8.93596 -0.000299274 9.32239 0.03125C9.72374 0.0640501 10.093 0.134999 10.4396 0.311523C10.977 0.585391 11.4147 1.02216 11.6886 1.55957C11.8652 1.90622 11.9361 2.27626 11.9689 2.67773C12.0004 3.06419 12.0001 3.53859 12.0001 4.11328V14.2861C12 14.5649 11.8373 14.818 11.5841 14.9346C11.3307 15.0511 11.0322 15.0096 10.8204 14.8281L6.28528 10.9404L1.75012 14.8281C1.53841 15.0094 1.24069 15.0509 0.987427 14.9346C0.734127 14.8181 0.571578 14.5649 0.571411 14.2861V4.11328C0.571402 3.53858 0.571119 3.0642 0.602661 2.67773C0.635465 2.27624 0.7063 1.90624 0.882935 1.55957C1.1568 1.02231 1.59372 0.585383 2.13098 0.311523C2.47762 0.134923 2.84769 0.0640506 3.24915 0.03125C3.63559 -0.000282439 4.11005 -9.10559e-06 4.68469 0H7.88684Z"
-                                      fill="#13121B"></path>
-                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row pt-3 pb-2 px-5">
-                <div class="border rounded-4">
-                    <div class="row pt-3">
-                        <div class="col-10 d-flex align-items-center ps-3">
-                            <div class="px-3">
-                                <a href="#" class="">
-                                    <img src="" class="rounded-circle" width="48" height="48" alt=""/>
-                                </a>
-                            </div>
-                            <div class="text-start">
-                                <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                    Lastname</a></p>
-                                <p class="mb-3 small text-secondary">3h ago</p>
-                            </div>
-                        </div>
-
-                        <div class="col-2 text-end pe-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                 fill="#000000">
-                                <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <p class="text-start px-5 py-2">
-                            Had the chance to work on a small project this month with Sara Ilievska and Ivona
-                            Stojanovska — and honestly, it reminded me how powerful it is when students from different
-                            fields come together.
-
-                            I’m studying software engineering, and I’m used to working with other devs, but this time, I
-                            saw how much stronger our ideas became when we mixed perspectives. Ivona helped with clear
-                            content, Sara brought structure to our messaging, and I did the tech stuff. It worked.
-
-                            We need more of this. More mixing. More sharing between faculties. Not just because it’s
-                            useful, but because it’s fun, and real, and opens your mind.
-
-                            If you’ve been thinking of collaborating with someone outside your field — just do it.
-
-                            Here's a link to our translation mini-app:
-                            github.com/dimitarpetrovski/translato
-                        </p>
-                    </div>
-                    <div class="row d-flex text-end">
-                        <div class="col-9">
-
-                        </div>
-                        <div class="col-1 pb-3 pe-0">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"
-                                     fill="none">
-                                    <path d="M2.5 11.25L1.96967 10.7197L1.43934 11.25L1.96967 11.7803L2.5 11.25ZM12.625 8.125C12.625 7.71079 12.2892 7.375 11.875 7.375C11.4608 7.375 11.125 7.71079 11.125 8.125L12.625 8.125ZM5 8.75L4.46967 8.21967L1.96967 10.7197L2.5 11.25L3.03033 11.7803L5.53033 9.28033L5 8.75ZM2.5 11.25L1.96967 11.7803L4.46967 14.2803L5 13.75L5.53033 13.2197L3.03033 10.7197L2.5 11.25ZM2.5 11.25L2.5 12L8.75 12L8.75 11.25L8.75 10.5L2.5 10.5L2.5 11.25ZM8.75 11.25L8.75 12C10.8901 12 12.625 10.2651 12.625 8.125L11.875 8.125L11.125 8.125C11.125 9.43668 10.0617 10.5 8.75 10.5L8.75 11.25Z"
-                                          fill="#222222"></path>
-                                    <path d="M12.5 3.75L13.0303 4.28033L13.5607 3.75L13.0303 3.21967L12.5 3.75ZM2.375 6.875C2.375 7.28921 2.71079 7.625 3.125 7.625C3.53921 7.625 3.875 7.28921 3.875 6.875L2.375 6.875ZM10 6.25L10.5303 6.78033L13.0303 4.28033L12.5 3.75L11.9697 3.21967L9.46967 5.71967L10 6.25ZM12.5 3.75L13.0303 3.21967L10.5303 0.71967L10 1.25L9.46967 1.78033L11.9697 4.28033L12.5 3.75ZM12.5 3.75L12.5 3L6.25 3L6.25 3.75L6.25 4.5L12.5 4.5L12.5 3.75ZM6.25 3.75L6.25 3C4.1099 3 2.375 4.7349 2.375 6.875L3.125 6.875L3.875 6.875C3.875 5.56332 4.93832 4.5 6.25 4.5L6.25 3.75Z"
-                                          fill="#222222"></path>
-                                </svg>
-                            </a>
-                            4
-                        </div>
-                        <div class="col-1 pe-1">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15"
-                                     fill="none">
-                                    <path d="M12.7858 6.25L13.3161 6.78033L13.8464 6.25L13.3161 5.71967L12.7858 6.25ZM2.03577 11.25C2.03577 11.6642 2.37155 12 2.78577 12C3.19998 12 3.53577 11.6642 3.53577 11.25L2.03577 11.25ZM9.66077 9.375L10.1911 9.90533L13.3161 6.78033L12.7858 6.25L12.2554 5.71967L9.13044 8.84467L9.66077 9.375ZM12.7858 6.25L13.3161 5.71967L10.1911 2.59467L9.66077 3.125L9.13044 3.65533L12.2554 6.78033L12.7858 6.25ZM12.7858 6.25L12.7858 5.5L7.78577 5.5L7.78577 6.25L7.78577 7L12.7858 7L12.7858 6.25ZM7.78577 6.25L7.78577 5.5C4.61013 5.5 2.03577 8.07436 2.03577 11.25L2.78577 11.25L3.53577 11.25C3.53577 8.90279 5.43856 7 7.78577 7L7.78577 6.25Z"
-                                          fill="#222222"></path>
-                                </svg>
-                            </a>
-                            4
-                        </div>
-                        <div class="col-1 pe-4">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
-                                     fill="none">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M4.68477 3.08065e-07H7.88662C8.4616 -8.80292e-06 8.93614 -1.62955e-05 9.32271 0.0315675C9.72421 0.0643712 10.0933 0.134774 10.4399 0.31141C10.9776 0.585334 11.4146 1.02242 11.6886 1.56003C11.8652 1.90669 11.9356 2.27577 11.9684 2.67727C12 3.06384 12 3.53839 12 4.11337V14.2857C12 14.5647 11.8376 14.8181 11.5842 14.9346C11.3307 15.0512 11.0326 15.0096 10.8208 14.828L6.28569 10.9408L1.75055 14.828C1.53875 15.0096 1.24066 15.0512 0.987228 14.9346C0.733799 14.8181 0.571412 14.5647 0.571412 14.2857L0.571411 4.11336C0.571402 3.53838 0.571395 3.06383 0.602979 2.67727C0.635782 2.27577 0.706185 1.90669 0.882822 1.56003C1.15675 1.02242 1.59383 0.585334 2.13144 0.31141C2.47811 0.134774 2.84718 0.0643712 3.24868 0.0315675C3.63525 -1.62955e-05 4.10979 -8.80292e-06 4.68477 3.08065e-07ZM3.36501 1.45539C3.05185 1.48098 2.89171 1.52735 2.78 1.58428C2.51119 1.72124 2.29265 1.93978 2.15569 2.20858C2.09877 2.3203 2.05239 2.48044 2.0268 2.7936C2.00054 3.11509 1.99998 3.53101 1.99998 4.14285V12.7327L5.82084 9.45767C6.08834 9.22839 6.48305 9.22839 6.75054 9.45767L10.5714 12.7327V4.14286C10.5714 3.53101 10.5708 3.11509 10.5446 2.7936C10.519 2.48044 10.4726 2.3203 10.4157 2.20858C10.2787 1.93978 10.0602 1.72124 9.79139 1.58428C9.67968 1.52735 9.51953 1.48098 9.20638 1.45539C8.88489 1.42913 8.46896 1.42857 7.85712 1.42857H4.71427C4.10242 1.42857 3.6865 1.42913 3.36501 1.45539Z"
-                                          fill="#13121B"></path>
-                                </svg>
-                            </a>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
-                                 fill="none">
-                                <path d="M7.88684 0C8.46149 -9.14525e-06 8.93596 -0.000299274 9.32239 0.03125C9.72374 0.0640501 10.093 0.134999 10.4396 0.311523C10.977 0.585391 11.4147 1.02216 11.6886 1.55957C11.8652 1.90622 11.9361 2.27626 11.9689 2.67773C12.0004 3.06419 12.0001 3.53859 12.0001 4.11328V14.2861C12 14.5649 11.8373 14.818 11.5841 14.9346C11.3307 15.0511 11.0322 15.0096 10.8204 14.8281L6.28528 10.9404L1.75012 14.8281C1.53841 15.0094 1.24069 15.0509 0.987427 14.9346C0.734127 14.8181 0.571578 14.5649 0.571411 14.2861V4.11328C0.571402 3.53858 0.571119 3.0642 0.602661 2.67773C0.635465 2.27624 0.7063 1.90624 0.882935 1.55957C1.1568 1.02231 1.59372 0.585383 2.13098 0.311523C2.47762 0.134923 2.84769 0.0640506 3.24915 0.03125C3.63559 -0.000282439 4.11005 -9.10559e-06 4.68469 0H7.88684Z"
-                                      fill="#13121B"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row pt-3 pb-2 px-5">
-                <div class="border rounded-4">
-                    <div class="row pt-3">
-                        <div class="col-10 d-flex align-items-center ps-3">
-                            <div class="px-3">
-                                <a href="#" class="">
-                                    <img src="" class="rounded-circle" width="48" height="48" alt=""/>
-                                </a>
-                            </div>
-                            <div class="text-start">
-                                <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                    Lastname</a></p>
-                                <p class="mb-3 small text-secondary">3h ago</p>
-                            </div>
-                        </div>
-
-                        <div class="col-2 text-end pe-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                 fill="#000000">
-                                <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <p class="text-start px-5 py-2">
-                            Had the chance to work on a small project this month with Sara Ilievska and Ivona
-                            Stojanovska — and honestly, it reminded me how powerful it is when students from different
-                            fields come together.
-
-                            I’m studying software engineering, and I’m used to working with other devs, but this time, I
-                            saw how much stronger our ideas became when we mixed perspectives. Ivona helped with clear
-                            content, Sara brought structure to our messaging, and I did the tech stuff. It worked.
-
-                            We need more of this. More mixing. More sharing between faculties. Not just because it’s
-                            useful, but because it’s fun, and real, and opens your mind.
-
-                            If you’ve been thinking of collaborating with someone outside your field — just do it.
-
-                            Here's a link to our translation mini-app:
-                            github.com/dimitarpetrovski/translato
-                        </p>
-                    </div>
-                    <div class="row d-flex text-end">
-                        <div class="col-9">
-
-                        </div>
-                        <div class="col-1 pb-3 pe-0">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"
-                                     fill="none">
-                                    <path d="M2.5 11.25L1.96967 10.7197L1.43934 11.25L1.96967 11.7803L2.5 11.25ZM12.625 8.125C12.625 7.71079 12.2892 7.375 11.875 7.375C11.4608 7.375 11.125 7.71079 11.125 8.125L12.625 8.125ZM5 8.75L4.46967 8.21967L1.96967 10.7197L2.5 11.25L3.03033 11.7803L5.53033 9.28033L5 8.75ZM2.5 11.25L1.96967 11.7803L4.46967 14.2803L5 13.75L5.53033 13.2197L3.03033 10.7197L2.5 11.25ZM2.5 11.25L2.5 12L8.75 12L8.75 11.25L8.75 10.5L2.5 10.5L2.5 11.25ZM8.75 11.25L8.75 12C10.8901 12 12.625 10.2651 12.625 8.125L11.875 8.125L11.125 8.125C11.125 9.43668 10.0617 10.5 8.75 10.5L8.75 11.25Z"
-                                          fill="#222222"></path>
-                                    <path d="M12.5 3.75L13.0303 4.28033L13.5607 3.75L13.0303 3.21967L12.5 3.75ZM2.375 6.875C2.375 7.28921 2.71079 7.625 3.125 7.625C3.53921 7.625 3.875 7.28921 3.875 6.875L2.375 6.875ZM10 6.25L10.5303 6.78033L13.0303 4.28033L12.5 3.75L11.9697 3.21967L9.46967 5.71967L10 6.25ZM12.5 3.75L13.0303 3.21967L10.5303 0.71967L10 1.25L9.46967 1.78033L11.9697 4.28033L12.5 3.75ZM12.5 3.75L12.5 3L6.25 3L6.25 3.75L6.25 4.5L12.5 4.5L12.5 3.75ZM6.25 3.75L6.25 3C4.1099 3 2.375 4.7349 2.375 6.875L3.125 6.875L3.875 6.875C3.875 5.56332 4.93832 4.5 6.25 4.5L6.25 3.75Z"
-                                          fill="#222222"></path>
-                                </svg>
-                            </a>
-                            4
-                        </div>
-                        <div class="col-1 pe-1">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15"
-                                     fill="none">
-                                    <path d="M12.7858 6.25L13.3161 6.78033L13.8464 6.25L13.3161 5.71967L12.7858 6.25ZM2.03577 11.25C2.03577 11.6642 2.37155 12 2.78577 12C3.19998 12 3.53577 11.6642 3.53577 11.25L2.03577 11.25ZM9.66077 9.375L10.1911 9.90533L13.3161 6.78033L12.7858 6.25L12.2554 5.71967L9.13044 8.84467L9.66077 9.375ZM12.7858 6.25L13.3161 5.71967L10.1911 2.59467L9.66077 3.125L9.13044 3.65533L12.2554 6.78033L12.7858 6.25ZM12.7858 6.25L12.7858 5.5L7.78577 5.5L7.78577 6.25L7.78577 7L12.7858 7L12.7858 6.25ZM7.78577 6.25L7.78577 5.5C4.61013 5.5 2.03577 8.07436 2.03577 11.25L2.78577 11.25L3.53577 11.25C3.53577 8.90279 5.43856 7 7.78577 7L7.78577 6.25Z"
-                                          fill="#222222"></path>
-                                </svg>
-                            </a>
-                            4
-                        </div>
-                        <div class="col-1 pe-4">
-                            <a href="" onclick="" class="text-decoration-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
-                                     fill="none">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M4.68477 3.08065e-07H7.88662C8.4616 -8.80292e-06 8.93614 -1.62955e-05 9.32271 0.0315675C9.72421 0.0643712 10.0933 0.134774 10.4399 0.31141C10.9776 0.585334 11.4146 1.02242 11.6886 1.56003C11.8652 1.90669 11.9356 2.27577 11.9684 2.67727C12 3.06384 12 3.53839 12 4.11337V14.2857C12 14.5647 11.8376 14.8181 11.5842 14.9346C11.3307 15.0512 11.0326 15.0096 10.8208 14.828L6.28569 10.9408L1.75055 14.828C1.53875 15.0096 1.24066 15.0512 0.987228 14.9346C0.733799 14.8181 0.571412 14.5647 0.571412 14.2857L0.571411 4.11336C0.571402 3.53838 0.571395 3.06383 0.602979 2.67727C0.635782 2.27577 0.706185 1.90669 0.882822 1.56003C1.15675 1.02242 1.59383 0.585334 2.13144 0.31141C2.47811 0.134774 2.84718 0.0643712 3.24868 0.0315675C3.63525 -1.62955e-05 4.10979 -8.80292e-06 4.68477 3.08065e-07ZM3.36501 1.45539C3.05185 1.48098 2.89171 1.52735 2.78 1.58428C2.51119 1.72124 2.29265 1.93978 2.15569 2.20858C2.09877 2.3203 2.05239 2.48044 2.0268 2.7936C2.00054 3.11509 1.99998 3.53101 1.99998 4.14285V12.7327L5.82084 9.45767C6.08834 9.22839 6.48305 9.22839 6.75054 9.45767L10.5714 12.7327V4.14286C10.5714 3.53101 10.5708 3.11509 10.5446 2.7936C10.519 2.48044 10.4726 2.3203 10.4157 2.20858C10.2787 1.93978 10.0602 1.72124 9.79139 1.58428C9.67968 1.52735 9.51953 1.48098 9.20638 1.45539C8.88489 1.42913 8.46896 1.42857 7.85712 1.42857H4.71427C4.10242 1.42857 3.6865 1.42913 3.36501 1.45539Z"
-                                          fill="#13121B"></path>
-                                </svg>
-                            </a>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
-                                 fill="none">
-                                <path d="M7.88684 0C8.46149 -9.14525e-06 8.93596 -0.000299274 9.32239 0.03125C9.72374 0.0640501 10.093 0.134999 10.4396 0.311523C10.977 0.585391 11.4147 1.02216 11.6886 1.55957C11.8652 1.90622 11.9361 2.27626 11.9689 2.67773C12.0004 3.06419 12.0001 3.53859 12.0001 4.11328V14.2861C12 14.5649 11.8373 14.818 11.5841 14.9346C11.3307 15.0511 11.0322 15.0096 10.8204 14.8281L6.28528 10.9404L1.75012 14.8281C1.53841 15.0094 1.24069 15.0509 0.987427 14.9346C0.734127 14.8181 0.571578 14.5649 0.571411 14.2861V4.11328C0.571402 3.53858 0.571119 3.0642 0.602661 2.67773C0.635465 2.27624 0.7063 1.90624 0.882935 1.55957C1.1568 1.02231 1.59372 0.585383 2.13098 0.311523C2.47762 0.134923 2.84769 0.0640506 3.24915 0.03125C3.63559 -0.000282439 4.11005 -9.10559e-06 4.68469 0H7.88684Z"
-                                      fill="#13121B"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <!-- Sidebar -->
 
         <div class="col-3 text-start">
             <div class="row position-sticky" style="top: 6.5rem;" id="recommendations">
+            {% if mutual %}
                 <h5 class="py-2">Mutual collaborators</h5>
+                {% for collab in mutuals %}
                 <br>
                 <div class="border rounded-4 mb-2 row">
                     <div class="col-2 d-flex align-items-center">
-                        <a href="#" class="">
-                            <img src="" class="rounded-circle" width="48" height="48" alt=""/>
+                        <a href="{% url 'profile' collab.user_id %}" class="">
+                            <img src="{{ collab.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
                         </a>
                     </div>
                     <div class="col-10 px-4 gap-0">
-                        <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                            Lastname</a></p>
-                        <p class="mb-3 small"><a href="#"
-                                                 class="text-decoration-none text-secondary link-body-emphasis">3 mutual
-                            collaborators</a></p>
+                        <p class="mb-0 mt-3">
+                            <a href="{% url 'profile' collab.user_id %}" class="text-decoration-none text-body-emphasis">
+                                {{ collab.first_name }} {{ collab.last_name }}
+                            </a>
+                        </p>
+                        <p class="mb-3 small">
+                            <a href="{% url 'collaborations' collab.user_id %}" class="text-decoration-none text-secondary link-body-emphasis">
+                                3 mutual collaborators
+                            </a>
+                        </p>
                     </div>
                 </div>
+                {% endfor %}
+            {% else %}
+                <h5 class="py-2">People you may know</h5>
+                {% for profile in profiles %}
                 <br>
                 <div class="border rounded-4 mb-2 row">
                     <div class="col-2 d-flex align-items-center">
-                        <a href="#" class="">
-                            <img src="" class="rounded-circle" width="48" height="48" alt=""/>
+                        <a href="{% url 'profile' profile.user_id %}" class="">
+                            <img src="{{ profile.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
                         </a>
                     </div>
-                    <div class="col-10 px-4">
-                        <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                            Lastname</a></p>
-                        <p class="mb-3 small"><a href="" class="text-decoration-none text-secondary link-body-emphasis">3
-                            mutual collaborators</a></p>
+                    <div class="col-10 px-4 gap-0">
+                        <p class="mb-0 mt-3">
+                            <a href="{% url 'profile' profile.user_id %}" class="text-decoration-none text-body-emphasis">
+                                {{ profile.first_name }} {{ profile.last_name }}
+                            </a>
+                        </p>
+                        <p class="mb-3 small">
+                            <a href="{% url 'collaborations' profile.user_id %}" class="text-decoration-none text-secondary link-body-emphasis">
+                                0 mutual collaborators
+                            </a>
+                        </p>
                     </div>
                 </div>
-                <br>
-                <div class="border rounded-4 mb-2 row">
-                    <div class="col-2 d-flex align-items-center">
-                        <a href="#" class="">
-                            <img src="" class="rounded-circle" width="48" height="48" alt=""/>
-                        </a>
-                    </div>
-                    <div class="col-10 px-4">
-                        <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                            Lastname</a></p>
-                        <p class="mb-3 small"><a href="" class="text-decoration-none text-secondary link-body-emphasis">3
-                            mutual collaborators</a></p>
-                    </div>
-                </div>
+                {% endfor %}
+            {% endif %}
                 <div class="row py-3" id="calendar">
                     <h5>My calendar</h5>
                 </div>
