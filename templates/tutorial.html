@@ -4,7 +4,7 @@
     
     <!--Main Content-->
 
-    <div class="container mt-5 px-5">
+    <div class="container px-5">
         <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
@@ -15,7 +15,7 @@
                         class=""></button>
             </div>
             <div class="carousel-inner ">
-                <div class="carousel-item active" style="height: 200px">
+                <div class="carousel-item active" style="height: 250px">
                     <svg aria-hidden="true" class="" height="100%" preserveAspectRatio="xMidYMid slice"
                          width="100%" xmlns="http://www.w3.org/2000/svg">
                         <rect width="100%" height="100%" fill="#436850"></rect>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item" style="height: 200px">
+                <div class="carousel-item" style="height: 250px">
                     <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
                          preserveAspectRatio="xMidYMid slice"
                          width="100%" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item" style="height: 200px">
+                <div class="carousel-item" style="height: 250px">
                     <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
                          preserveAspectRatio="xMidYMid slice"
                          width="100%" xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +64,7 @@
         </div>
         <div>
             <hr class="featurette-divider">
-            <div class="row featurette ">
+            <div class="row featurette p-5">
                 <div class="col-md-7"><h2 class="featurette-heading fw-normal lh-1">What are collaborations?
                 </h2>
                     <p class="lead text-start">Collaborations are proposals you send directly to someone you want to
@@ -72,19 +72,14 @@
                     <p class="lead text-start">Saw someone whose achievements caught your eye? Head to their profile and
                         hit “Collaborate” to propose a project together.</p>
                 </div>
-                <div class="col-md-5 d-flex align-items-center">
-                    <svg aria-label="200x200"
-                         class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                         height="200"
-                         preserveAspectRatio="xMidYMid slice" role="img" width="200" xmlns="http://www.w3.org/2000/svg">
+                <div class="col-md-5 d-flex align-items-center justify-content-center">
                         <title>Collaborations</title>
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
-                        <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                        <img alt="collaborate button" src="/static/img/collaborate.png">
                     </svg>
                 </div>
             </div>
             <hr class="featurette-divider">
-            <div class="row featurette">
+            <div class="row featurette p-5">
                 <div class="col-md-7 order-md-2 "><h2 class="featurette-heading fw-normal lh-1">Browse + Apply
                 </h2>
                     <p class="lead">The Browse section is your discovery hub.</p>
@@ -102,19 +97,14 @@
                         <li>Save posts in your bookmarks to check later</li>
                     </ul>
                 </div>
-                <div class="col-md-5 order-md-1 d-flex align-items-center">
-                    <svg aria-label="200x200"
-                         class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                         height="200"
-                         preserveAspectRatio="xMidYMid slice" role="img" width="200" xmlns="http://www.w3.org/2000/svg">
+                <div class="col-md-5 order-md-1 d-flex align-items-center justify-content-center">
                         <title>Browse</title>
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
-                        <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                        <img alt="collaborate button" src="/static/img/apply.png">
                     </svg>
                 </div>
             </div>
             <hr class="featurette-divider">
-            <div class="row featurette">
+            <div class="row featurette p-5">
                 <div class="col-md-7"><h2 class="featurette-heading fw-normal lh-1">Your Profile = Your Portfolio
                 </h2>
                     <p class="lead">Your profile is where people get to know you. Customize it with:</p>
@@ -126,15 +116,19 @@
                     </ul>
                     <p class="lead">You can also browse other users’ profiles and get inspired by what they’ve
                         accomplished.</p></div>
-                <div class="col-md-5 d-flex align-items-center">
-                    <svg aria-label="200x200"
-                         class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                         height="200"
-                         preserveAspectRatio="xMidYMid slice" role="img" width="200" xmlns="http://www.w3.org/2000/svg">
+                <div class="col-md-5 d-flex align-items-center justify-content-center">
                         <title>Profile</title>
-                        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
-                        <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">200x200</text>
+                        <img alt="collaborate button" src="/static/img/profile.png">
                     </svg>
+                </div>
+            </div>
+            <hr class="featurette-divider">
+            <div class="row justify-content-center my-5 pb-5 px-5">
+                <div class="d-flex align-items-center justify-content-center text-center">
+                    <p class="mb-0">Not sure where to begin?</p>
+                    <a href="{% url 'index' %}" class="ps-2 nav-link fw-semibold" style="color: #436850">
+                    Get started.
+                    </a>
                 </div>
             </div>
         </div>

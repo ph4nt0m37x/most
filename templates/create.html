@@ -12,40 +12,42 @@
                     <div class="border rounded-4">
                         <div class="row pt-3">
                             <div class="col-1 d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                <a href="{{ request.META.HTTP_REFERER }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                      fill="none">
                                     <path d="M10.6662 19L3.99951 12M3.99951 12L10.6662 5M3.99951 12L19.9995 12"
                                           stroke="black" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg>
+                                </a>
                             </div>
                             <div class="col-11 d-flex flex-column mt-3">
-                                <h2 class="text-start mb-0 fw-semibold">Join Our Linguistics Program</h2>
-                                <p class="small text-start mb-0"><a href="#"
-                                                                    class="text-decoration-none text-secondary link-body-emphasis">Company</a>
-                                </p>
+                                <h2 class="text-start mb-0 fw-semibold">Create a Collaboration post</h2>
                             </div>
                             <div class="px-5">
                                 <hr/>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-11">
-                                {% csrf_token %}
-                                {{ form.as_p }}
+                            <div class="col-1"></div>
+                            <div class="col-10">
+                                <form method="post" action="{% url 'create_app_post' %}">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <div class="row d-flex justify-content-between px-5 mx-5 my-4">
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <a href="{{ request.META.HTTP_REFERER }}" class="text-decoration-none mb-0" style="color: #436850"><p class="mb-0">
+                                                Cancel</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-2 text-end">
+                                            <button type="submit" class="btn text-light" data-bs-toggle="modal"
+                                                    data-bs-target="#successModal" style="background-color: #436850">Post
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
-
-                        <div class="row d-flex justify-content-between px-5 mx-5 my-4">
-                            <div class="col-2 d-flex align-items-center justify-content-center">
-                                <a href="" class="text-decoration-none mb-0" style="color: #436850"><p class="mb-0">
-                                    Cancel</p>
-                                </a>
-                            </div>
-                            <div class="col-2 text-end">
-                                <button type="submit" class="btn text-light" data-bs-toggle="modal"
-                                        data-bs-target="#successModal" style="background-color: #436850">Post
-                                </button>
-                            </div>
+                            <div class="col-1"></div>
                         </div>
 
                     </div>

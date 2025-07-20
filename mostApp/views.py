@@ -1,8 +1,10 @@
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.api import success
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.urls import reverse
 
 from mostApp.forms import *
 from mostApp.models import *
@@ -34,7 +36,7 @@ def signup(request):
                 user_model = User.objects.filter(email=email).first()
                 new_profile = Profile.objects.create(user=user_model, first_name=first_name, last_name=last_name)
                 new_profile.save()
-                return redirect('/')
+                return redirect('tutorial')
         else:
             messages.info(request, 'Passwords Not Matching')
             return redirect('signup')
@@ -60,7 +62,19 @@ def logout(request):
     auth.logout(request)
     return redirect('signin')
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
+def tutorial(request):
+    return render(request, 'tutorial.html', context={'my_profile_id': my_profile_id(request)})
+
+@login_required(login_url='signin')
+def help_page(request):
+    return render(request, 'help.html', context={'my_profile_id': my_profile_id(request)})
+
+@login_required(login_url='signin')
+def about(request):
+    return render(request, 'about.html', context={'my_profile_id': my_profile_id(request)})
+
+@login_required(login_url='signin')
 def index(request):
     posts = Post.objects.all().order_by('-created')
     my_collaborations = Collaboration.objects.filter(user=request.user)
@@ -70,24 +84,40 @@ def index(request):
     mutual = False
     if mutual_collaborations.count() > 0:
         mutual = True
+    my_profile = Profile.objects.get(user=request.user)
     return render(request, 'index.html',
                   context={'posts': posts,
+                           'my_profile': my_profile,
                            'mutuals': mutual_collaborations[:3],
                            'profiles': profiles,
                            'mutual': mutual,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def search(request):
     query = request.GET.get('query')
-    profiles = Profile.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    profiles_search = Profile.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    my_collaborations = Collaboration.objects.filter(user=request.user)
+    collaborations = (
+        Collaboration.objects.filter(collaborator__in=my_collaborations.values_list('collaborator'))).values_list(
+        'collaborator')
+    mutual_collaborations = Profile.objects.filter(id__in=collaborations)
+    profiles = Profile.objects.exclude(user__in=mutual_collaborations.values_list('user')).exclude(user=request.user)[
+               :3]
+    mutual = False
+    if mutual_collaborations.count() > 0:
+        mutual = True
     return render(request, 'search.html',
                   context={'profiles': profiles,
+                           'profiles_search': profiles_search,
+                           'query': query,
+                           'mutuals': mutual_collaborations[:3],
+                           'mutual': mutual,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def browse(request):
-    posts = ApplicationPost.objects.all()
+    posts = ApplicationPost.objects.all().order_by('-created')
     tags = Tag.objects.all()
     bookmarked = False
     return render(request, 'browse.html',
@@ -96,24 +126,29 @@ def browse(request):
                            'bookmarked': bookmarked,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def browse_search(request):
     tags = Tag.objects.all()
     query = request.GET.get('query')
-    posts = ApplicationPost.objects.filter(Q(title__icontains=query) | Q(short_description__icontains=query) | Q(profile__first_name__icontains=query) | Q(profile__last_name__icontains=query))
+    posts = ApplicationPost.objects.filter(Q(title__icontains=query) |
+                                           Q(short_description__icontains=query) |
+                                           Q(profile__first_name__icontains=query) |
+                                           Q(profile__last_name__icontains=query))
     return render(request, 'browse.html',
                   context={'posts': posts,
                            'tags': tags,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def browse_filter(request):
     date_filter = request.GET.get('date_filter')
     filter_option = request.GET.getlist('filter')
     posts = ApplicationPost.objects.all()
     if date_filter.__contains__('-'):
         date = date_filter.split('-')
-        posts = ApplicationPost.objects.filter(created__year__lte=date[0], created__month__lte=date[1], created__day__lte=date[2])
+        posts = ApplicationPost.objects.filter(created__year__lte=date[0],
+                                               created__month__lte=date[1],
+                                               created__day__lte=date[2])
     if len(filter_option) == 0:
         filter = 'all'
     else:
@@ -130,16 +165,17 @@ def browse_filter(request):
                            'date_filter': date_filter,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def create_post(request):
     content = request.POST.get('content')
     image = request.POST.get('image')
     location = request.POST.get('location')
-    post = Post.objects.create(content=content, image=image, location=location, profile=Profile.objects.get(user=request.user))
+    post = Post.objects.create(content=content, image=image,
+                               location=location, profile=Profile.objects.get(user=request.user))
     post.save()
-    return redirect('index')
+    return redirect(request.META.get('HTTP_REFERER'))
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def create_app_post(request):
     if request.method == 'POST':
         form = ApplicationPostModelForm(request.POST, request.FILES)
@@ -154,7 +190,7 @@ def create_app_post(request):
                   context={'form': form,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def post(request, post_id):
     exists  = False
     deadline = False  # if the deadline has passed
@@ -171,12 +207,12 @@ def post(request, post_id):
                            'deadline': deadline,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def apply(request, post_id):
-    apply = True # if the user tries to apply to their own post
+    apply_post = True # if the user tries to apply to their own post
     profile = Profile.objects.filter(user=request.user).first()
     if ApplicationPost.objects.filter(id=post_id).first().profile == profile:
-        apply = False
+        apply_post = False
     if request.method == 'POST':
         form = ApplicationFormModelForm(request.POST, request.FILES)
         if form.is_valid():
@@ -184,16 +220,22 @@ def apply(request, post_id):
             form.app_post = ApplicationPost.objects.filter(id=post_id).first()
             form.user = request.user
             form.save()
-        return redirect('index')
+            return render(request, 'apply.html',
+                  context={'form': ApplicationFormModelForm(),
+                           'post_id': post_id,
+                           'apply': apply_post,
+                           'my_profile_id': my_profile_id(request),
+                           'successful': True})
     form = ApplicationFormModelForm()
     return render(request, 'apply.html',
                   context={'form': form,
                            'post_id': post_id,
-                           'apply': apply,
+                           'apply': apply_post,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def profile(request, user_id):
+    successful = False
     edit = False
     user = User.objects.filter(id=user_id).first()
     if request.user == user:  # currently signed-in user
@@ -202,7 +244,6 @@ def profile(request, user_id):
     else:
         profile = Profile.objects.filter(user=user).first()
     posts = Post.objects.filter(profile=profile).order_by('-created')
-    application_posts = ApplicationPost.objects.filter(profile=profile).order_by('-created')
     certifications = Certification.objects.filter(profile=profile).order_by('-date')
     my_collaborations = Collaboration.objects.filter(user=request.user)
     collaborations = (
@@ -221,25 +262,28 @@ def profile(request, user_id):
                            'edit': edit,
                            'mutuals': mutual_collaborations[:3],
                            'mutual': mutual,
+                           'successful': successful,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def edit_profile(request):
     if request.method == 'POST':
         user = UserEditModelForm(request.POST, request.FILES, instance=request.user)
-        profile = ProfileEditModelForm(request.POST, request.FILES, instance=Profile.objects.filter(user=request.user).first())
+        profile = ProfileEditModelForm(request.POST, request.FILES,
+                                       instance=Profile.objects.filter(user_id=my_profile_id(request)).first())
         if user.is_valid() or profile.is_valid():
+            print(request.user.id)
             user.save()
             profile.save()
         return redirect('profile', request.user.pk)
     user = UserEditModelForm(instance=request.user)
-    profile = ProfileEditModelForm(instance=Profile.objects.get(user=request.user))
-    return render(request, 'edit-profile.html',
+    profile = ProfileEditModelForm(instance=Profile.objects.filter(user_id=my_profile_id(request)).first())
+    return render(request, 'edit.html',
                   context={'user': user,
                            'profile': profile,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def bookmark_post(request, post_id):
     profile = Profile.objects.filter(user=request.user).first()
     post = Post.objects.filter(id=post_id).first()
@@ -249,7 +293,7 @@ def bookmark_post(request, post_id):
         BookmarkPost.objects.create(profile=profile, post=post).save()
     return redirect(request.META.get('HTTP_REFERER'))
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def bookmark_app_post(request, post_id):
     profile = Profile.objects.filter(user=request.user).first()
     post = ApplicationPost.objects.filter(id=post_id).first()
@@ -259,7 +303,7 @@ def bookmark_app_post(request, post_id):
         BookmarkAppPost.objects.create(profile=profile, app_post=post).save()
     return redirect(request.META.get('HTTP_REFERER'))
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def bookmarks(request):
     bookmarks_post = BookmarkPost.objects.filter(profile=Profile.objects.filter(user=request.user).first())
     bookmarks_app_post = BookmarkAppPost.objects.filter(profile=Profile.objects.filter(user=request.user).first())
@@ -268,7 +312,7 @@ def bookmarks(request):
                            'bookmarks_app_post': bookmarks_app_post,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def collaborations(request, user_id):
     user = User.objects.filter(id=user_id).first()
     collaborations_sent = Collaboration.objects.filter(user=user)
@@ -279,22 +323,41 @@ def collaborations(request, user_id):
                   context={'collaborations_sent': collaborations_sent,
                            'collaborations_received': collaborations_received,
                            'mutual': mutual,
+                           'user_id': user_id,
                            'my_profile_id': my_profile_id(request)})
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def collaborate(request, user_id):
     subject = request.POST['subject']
     body = request.POST['body']
-    collaboration = Collaboration.objects.filter(user=request.user, collaborator=Profile.objects.filter(user_id=user_id).first())
+    collaboration = Collaboration.objects.filter(user=request.user,
+                                                 collaborator=Profile.objects.filter(user_id=user_id).first())
     if collaboration.exists():
         collaboration.update(subject=subject, body=body)
     else:
-        Collaboration.objects.create(user=request.user, collaborator=Profile.objects.filter(user_id=user_id).first(), subject=subject, body=body)
+        Collaboration.objects.create(user=request.user,
+                                     collaborator=Profile.objects.filter(user_id=user_id).first(),
+                                     subject=subject, body=body)
     return redirect(profile, user_id)
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def applied(request):
     posts = ApplicationForm.objects.filter(user=request.user)
     return render(request, 'applied.html',
                   context={'posts': posts,
                            'my_profile_id': my_profile_id(request)})
+
+@login_required(login_url='signin')
+def create_certification(request):
+    name = request.POST['name']
+    company = request.POST['company']
+    date = request.POST['date']
+    profile = Profile.objects.filter(user=request.user).first()
+    if Certification.objects.filter(name=name, profile=profile).exists():
+        Certification.objects.filter(name=name, profile=profile).update(name=name)
+    if Certification.objects.filter(company=company, profile=profile).exists():
+        Certification.objects.filter(company=company, profile=profile).update(company=company)
+    if Certification.objects.filter(date=date, profile=profile).exists():
+        Certification.objects.filter(date=date, profile=profile).update(date=date)
+    Certification.objects.create(name=name, company=company, date=date, profile=profile).save()
+    return redirect('profile', profile.user_id)

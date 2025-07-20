@@ -1,4 +1,5 @@
 {% load static %}
+{% load filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,14 +56,14 @@
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img src="{% if my_profile_id|get_profile_pic_url %} {{ my_profile_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small">
                     <li><a class="dropdown-item" href="{% url 'profile' my_profile_id %}">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Collaboration Requests</a></li>
+                    <li><a class="dropdown-item" href="{% url 'applied' %}">Collaboration Requests</a></li>
                     <li><a class="dropdown-item" href="{% url 'bookmarks' %}">Bookmarks</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Help</a></li>
+                    <li><a class="dropdown-item" href="{% url 'help_page' %}">Help</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -90,10 +91,10 @@
             <div class="col-6 col-md-2 mb-3">
                 <h6 class="small opacity-50 mb-3">INFO</h6>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0" style="color: #FBFADA">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0" style="color: #FBFADA">Browse</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0" style="color: #FBFADA">Help</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0" style="color: #FBFADA">About</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'index' %}" class="nav-link p-0" style="color: #FBFADA">Home</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'browse' %}" class="nav-link p-0" style="color: #FBFADA">Browse</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'help_page' %}" class="nav-link p-0" style="color: #FBFADA">Help</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'about' %}" class="nav-link p-0" style="color: #FBFADA">About</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md-2 mb-3">
@@ -101,7 +102,7 @@
             </div>
             <div class="col-md-5 offset-md-1 mb-3">
                 <form><h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of standout collaborations.</p>
+                    <p>Monthly digest of standout collaborations & scheduled events.</p>
                     <div class="d-flex flex-column flex-sm-row w-100 gap-2"><label for="newsletter1"
                                                                                    class="visually-hidden">Email
                         address</label> <input id="newsletter1" type="email" class="form-control"
@@ -111,7 +112,7 @@
                 </form>
             </div>
         </div>
-        <div class="d-flex flex-column flex-sm-row justify-content-center py-4 my-4 border-top"><p>© 2025 Мост –
+        <div class="d-flex flex-column flex-sm-row justify-content-center py-3 border-top"><p>© 2025 Мост –
             Licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank"
                               class="text-decoration-none text-reset link-opacity-75-hover">GNU
                 GPLv3.</a></p>
