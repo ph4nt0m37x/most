@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-11 d-flex flex-column mt-3">
                             <h2 class="text-start mb-2 fw-semibold">{{ post.title }}</h2>
-                            <p class="small text-start mb-0"><a href="#"
+                            <p class="small text-start mb-0"><a href="{% url 'profile' post.profile.user_id %}"
                                                                 class="text-decoration-none text-secondary link-body-emphasis">{{ post.profile.first_name }} {{ post.profile.last_name }}</a>
                             </p>
                         </div>
@@ -51,11 +51,20 @@
                         </div>
                         <div class="col-2 text-end">
                         {% else %}
-                            <a href="{% url 'apply' post.id %}">
-                                <button type="submit" class="btn text-light" style="background-color: #436850">
-                                    Apply
-                                </button>
-                            </a>
+                            <div class="row d-flex justify-content-between px-5 mx-5 my-4">
+                                <div class="col-2 d-flex align-items-center justify-content-center">
+                                    <a href="{{ request.META.HTTP_REFERER }}" class="text-decoration-none mb-0" style="color: #436850"><p class="mb-0">
+                                        Cancel</p>
+                                    </a>
+                                </div>
+                                <div class="col-2 d-flex align-items-center justify-content-center">
+                                    <a href="{% url 'apply' post.id %}">
+                                        <button type="submit" class="btn text-light" style="background-color: #436850">
+                                            Apply
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
                         {% endif %}
                         </div>
                     </div>
