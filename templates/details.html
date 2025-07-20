@@ -13,16 +13,18 @@
                 <div class="border rounded-4">
                     <div class="row pt-3">
                         <div class="col-1 d-flex align-items-center">
+                            <a href="{{ request.META.HTTP_REFERER }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none">
                                 <path d="M10.6662 19L3.99951 12M3.99951 12L10.6662 5M3.99951 12L19.9995 12"
                                       stroke="black" stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
+                            </a>
                         </div>
                         <div class="col-11 d-flex flex-column mt-3">
-                            <h2 class="text-start mb-0 fw-semibold">Join Our Linguistics Program</h2>
+                            <h2 class="text-start mb-0 fw-semibold">{{ post.title }}</h2>
                             <p class="small text-start mb-0"><a href="#"
-                                                                class="text-decoration-none text-secondary link-body-emphasis">Company</a>
+                                                                class="text-decoration-none text-secondary link-body-emphasis">{{ post.profile.first_name }} {{ post.profile.last_name }}</a>
                             </p>
                         </div>
                         <div class="px-5">
@@ -31,21 +33,7 @@
                     </div>
                     <div class="row">
                         <p class="text-start px-5 py-2">
-                            Had the chance to work on a small project this month with Sara Ilievska and Ivona
-                            Stojanovska — and honestly, it reminded me how powerful it is when students from different
-                            fields come together.
-
-                            I’m studying software engineering, and I’m used to working with other devs, but this time, I
-                            saw how much stronger our ideas became when we mixed perspectives. Ivona helped with clear
-                            content, Sara brought structure to our messaging, and I did the tech stuff. It worked.
-
-                            We need more of this. More mixing. More sharing between faculties. Not just because it’s
-                            useful, but because it’s fun, and real, and opens your mind.
-
-                            If you’ve been thinking of collaborating with someone outside your field — just do it.
-
-                            Here's a link to our translation mini-app:
-                            github.com/dimitarpetrovski/translato
+                            {{ post.long_description }}
                         </p>
                     </div>
                     <div class="row d-flex justify-content-between px-5 mx-5 my-4">
@@ -54,8 +42,17 @@
                             </a>
                         </div>
                         <div class="col-2 text-end">
-                            <button type="submit" class="btn text-light" style="background-color: #436850">Apply
-                            </button>
+                        {% if exists %}
+                            <p>You have already applied to this post.</p>
+                        {% elif deadline %}
+                            <p>Deadline: {{ post.deadline.date }}</p>
+                        {% else %}
+                            <a href="{% url 'apply' post.id %}">
+                                <button type="submit" class="btn text-light" style="background-color: #436850">
+                                    Apply
+                                </button>
+                            </a>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
