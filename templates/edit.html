@@ -31,7 +31,7 @@
                             <div class="row">
                             <div class="col-1"></div>
                             <div class="col-10">
-                                <form method="post" action="{% url 'edit_profile'  %}">
+                                <form method="post" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         {{ user.as_p }}
                                         {{ profile.as_p }}

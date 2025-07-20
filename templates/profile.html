@@ -19,7 +19,7 @@
             </div>
             <div class="col-7 justify-content-center">
                 <div class="row bg-dark mt-0 mb-5 mx-3 position-relative">
-                    <a href="#" class="ps-3">
+                    <a href="{% url 'profile' profile.user_id %}" class="ps-3">
                         <img src="{% if profile.user_id|get_profile_pic_url %} {{ profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle position-relative" style="transform: translateY(35%);"
                              width="150" height="150" alt=""/>
                     </a>
@@ -160,7 +160,7 @@
                                         <div class="row pt-3">
                                             <div class="col-12 d-flex align-items-center ps-3">
                                                 <div class="px-3">
-                                                    <a href="#" class="">
+                                                    <a href="{% url 'profile' profile.user_id %}" class="">
                                                         <img src="{% if profile.user_id|get_profile_pic_url %} {{ profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48"
                                                              height="48" alt=""/>
                                                     </a>
@@ -219,7 +219,7 @@
                                             <div class="modal-header pt-3 pb-3">
                                                 <div class="d-flex align-items-center">
                                                     <div class="px-3">
-                                                        <a href="#" class="">
+                                                        <a href="{% url 'profile' profile.user_id %}" class="">
                                                             <img src="{% if profile.user_id|get_profile_pic_url %} {{ profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle"
                                                                  width="48" height="48" alt=""/>
                                                         </a>

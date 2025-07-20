@@ -48,7 +48,7 @@
                             <div class="col-10 d-flex align-items-center ps-3">
                                 <div class="ps-4 pe-3">
                                     <a href="{% url 'profile' post.app_post.profile.user_id %}" class="">
-                                        <img src="{{ post.app_post.profile.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
+                                        <img src="{% if post.app_post.profile.user_id|get_profile_pic_url %} {{ post.app_post.profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt=""/>
                                     </a>
                                 </div>
                                 <div class="text-start">

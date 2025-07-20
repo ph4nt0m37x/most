@@ -18,7 +18,7 @@
                 <div class="row d-flex align-items-center px-4 py-1">
                     <div class="border rounded-4 mb-2 row">
                         <div class="col-2 d-flex align-items-center justify-content-center">
-                            <a href="#" class="">
+                            <a href="{% url 'profile' profile.user_id %}" class="">
                                 <img src="{% if profile.user_id|get_profile_pic_url %} {{ profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="64" height="64" alt=""/>
                             </a>
                         </div>

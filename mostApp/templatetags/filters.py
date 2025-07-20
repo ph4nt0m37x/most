@@ -17,7 +17,7 @@ def get_post_profile(post_id):
 
 @register.filter
 def get_profile_pic_url(user_id):
-    if Profile.objects.filter(id=user_id).first().profile_pic:
-        return f'{Profile.objects.filter(id=user_id).first().profile_pic.url}'
+    if Profile.objects.filter(user_id=user_id).first().profile_pic:
+        return Profile.objects.filter(user_id=user_id).first().profile_pic.url
     else:
         return False

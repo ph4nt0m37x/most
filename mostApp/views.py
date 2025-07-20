@@ -244,7 +244,6 @@ def profile(request, user_id):
     else:
         profile = Profile.objects.filter(user=user).first()
     posts = Post.objects.filter(profile=profile).order_by('-created')
-    application_posts = ApplicationPost.objects.filter(profile=profile).order_by('-created')
     certifications = Certification.objects.filter(profile=profile).order_by('-date')
     my_collaborations = Collaboration.objects.filter(user=request.user)
     collaborations = (
@@ -271,13 +270,14 @@ def edit_profile(request):
     if request.method == 'POST':
         user = UserEditModelForm(request.POST, request.FILES, instance=request.user)
         profile = ProfileEditModelForm(request.POST, request.FILES,
-                                       instance=Profile.objects.filter(user=request.user).first())
+                                       instance=Profile.objects.filter(user_id=my_profile_id(request)).first())
         if user.is_valid() or profile.is_valid():
+            print(request.user.id)
             user.save()
             profile.save()
         return redirect('profile', request.user.pk)
     user = UserEditModelForm(instance=request.user)
-    profile = ProfileEditModelForm(instance=Profile.objects.get(user=request.user))
+    profile = ProfileEditModelForm(instance=Profile.objects.filter(user_id=my_profile_id(request)).first())
     return render(request, 'edit.html',
                   context={'user': user,
                            'profile': profile,
