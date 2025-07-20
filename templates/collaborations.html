@@ -52,7 +52,7 @@
                         <div class="border rounded-4 mb-2 row">
                             <div class="col-2 d-flex align-items-center">
                                 <a href="{% url 'profile' collab.collaborator.user_id %}" class="">
-                                    <img src="{{ collab.collaborator.profile_pic }}" class="rounded-circle" width="48" height="48" alt="">
+                                    <img src="{% if collab.collaborator.user_id|get_profile_pic_url %} {{ collab.collaborator.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt="">
                                 </a>
                             </div>
                             <div class="col-10 px-4">
@@ -79,7 +79,7 @@
                         <div class="border rounded-4 mb-2 row">
                             <div class="col-2 d-flex align-items-center">
                                 <a href="{% url 'profile' collab.user.id %}" class="">
-                                    <img src="{{ collab.user.id|get_profile_pic }}" class="rounded-circle" width="48" height="48" alt="">
+                                    <img src="{% if collab.user.id|get_profile_pic_url %} {{ collab.user.id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt="">
                                 </a>
                             </div>
                             <div class="col-10 px-4">

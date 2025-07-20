@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filters %}
 {% block content %}
 
     <div class="container mt-5">
@@ -49,7 +50,7 @@
                     <div class="col-10 d-flex align-items-center ps-3">
                         <div class="ps-4 pe-3">
                             <a href="{% url 'profile' post.profile.user_id %}" class="">
-                                <img src="{{ post.profile.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
+                                <img src="{% if post.profile.user_id|get_profile_pic_url %} {{ post.profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt=""/>
                             </a>
                         </div>
                         <div class="text-start">

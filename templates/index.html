@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% load filters %}
 
 <!-- Main Content -->
 
@@ -16,7 +17,7 @@
                         <div class="col-12 d-flex align-items-center ps-3">
                             <div class="px-3">
                                 <a href="#" class="">
-                                    <img src="{{ my_profile.profile_pic }}" class="rounded-circle" width="48"
+                                    <img src="{% if my_profile_id|get_profile_pic_url %} {{ my_profile_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48"
                                          height="48" alt=""/>
                                 </a>
                             </div>
@@ -73,8 +74,8 @@
                             <div class="modal-header pt-3 pb-3">
                                 <div class="d-flex align-items-center">
                                     <div class="px-3">
-                                        <a href="#" class="">
-                                            <img src="{{ my_profile.profile_pic }}" class="rounded-circle"
+                                        <a href="{% url 'profile' my_profile_id %}" class="">
+                                            <img src="{% if my_profile_id|get_profile_pic_url %} {{ my_profile_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle"
                                                  width="48" height="48" alt=""/>
                                         </a>
                                     </div>
@@ -201,7 +202,7 @@
                         <div class="col-10 d-flex align-items-center ps-3">
                             <div class="px-3">
                                 <a href="{% url 'profile' post.profile.user_id %}" class="">
-                                    <img src="{{ post.profile.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
+                                    <img src="{% if my_profile_id|get_profile_pic_url %} {{ my_profile_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt=""/>
                                 </a>
                             </div>
                             <div class="text-start">
@@ -288,7 +289,7 @@
                 <div class="border rounded-4 mb-2 row">
                     <div class="col-2 d-flex align-items-center">
                         <a href="{% url 'profile' collab.user_id %}" class="">
-                            <img src="{{ collab.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
+                            <img src="{% if collab.user_id|get_profile_pic_url %} {{ collab.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt=""/>
                         </a>
                     </div>
                     <div class="col-10 px-4 gap-0">
@@ -312,7 +313,7 @@
                 <div class="border rounded-4 mb-2 row">
                     <div class="col-2 d-flex align-items-center">
                         <a href="{% url 'profile' profile.user_id %}" class="">
-                            <img src="{{ profile.profile_pic }}" class="rounded-circle" width="48" height="48" alt=""/>
+                            <img src="{% if profile.user_id|get_profile_pic_url %} {{ profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt=""/>
                         </a>
                     </div>
                     <div class="col-10 px-4 gap-0">

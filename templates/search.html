@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filters %}
 {% block content %}
 
 
@@ -18,7 +19,7 @@
                     <div class="border rounded-4 mb-2 row">
                         <div class="col-2 d-flex align-items-center justify-content-center">
                             <a href="#" class="">
-                                <img src="{{ profile.profile_pic }}" class="rounded-circle" width="64" height="64" alt=""/>
+                                <img src="{% if profile.user_id|get_profile_pic_url %} {{ profile.user_id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="64" height="64" alt=""/>
                             </a>
                         </div>
                         <div class="col-6 pe-4">
