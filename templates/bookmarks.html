@@ -8,7 +8,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-2 d-flex align-items-center justify-content-end">
-            <a href="" class="pb-4 mb-1">
+            <a href="{{ request.META.HTTP_REFERER }}" class="pb-4 mb-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                      fill="none">
                     <path d="M10.6662 19L3.99951 12M3.99951 12L10.6662 5M3.99951 12L19.9995 12"
@@ -38,6 +38,7 @@
 
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade active show" id="nav-collaborations" role="tabpanel" aria-labelledby="nav-collaborations-tab">
+        {% if bookmarks_app_posto %}
             {% for post in bookmarks_app_post %}
             <div class="row d-flex align-items-left">
                 <div class="col-3"></div>
@@ -92,7 +93,7 @@
                                               fill="#222222"></path>
                                     </svg>
                                 </a>
-                                  4
+                                  0
                             </div>
                             <div class="col-1 pe-4 d-flex align-items-center justify-content-end">
                                 <a href="{% url 'bookmark_app_post' post.app_post.id %}" onclick="" class="text-decoration-none">
@@ -117,8 +118,14 @@
                 <div class="col-3"></div>
             </div>
             {% endfor %}
+        {% else %}
+        <div class="row justify-content-center text-center">
+            <p>No bookmarks found.</p>
+        </div>
+        {% endif %}
         </div>
         <div class="tab-pane fade" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
+        {% if bookmarks_post %}
             {% for post in bookmarks_post %}
             <div class="row d-flex align-items-center">
                 <div class="col-3"></div>
@@ -168,7 +175,7 @@
                                               fill="#222222"></path>
                                     </svg>
                                 </a>
-                                4
+                                0
                             </div>
                             <div class="col-1 pe-1">
                                 <a href="" onclick="" class="text-decoration-none">
@@ -178,7 +185,7 @@
                                               fill="#222222"></path>
                                     </svg>
                                 </a>
-                                4
+                                0
                             </div>
                             <div class="col-1 pe-4">
                                 <a href="{% url 'bookmark_post' post.post.id %}" onclick="" class="text-decoration-none">
@@ -204,6 +211,11 @@
                 <div class="col-3"></div>
             </div>
             {% endfor %}
+        {% else %}
+        <div class="row justify-content-center text-center">
+            <p>No bookmarks found.</p>
+        </div>
+        {% endif %}
         </div>
     </div>
 </div>

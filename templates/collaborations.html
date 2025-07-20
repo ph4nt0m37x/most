@@ -108,12 +108,12 @@
                         <div class="border rounded-4 mb-2 row">
                             <div class="col-2 d-flex align-items-center">
                                 <a href="{% url 'profile' collab.user.id %}" class="">
-                                    <img src="" class="rounded-circle" width="48" height="48" alt="">
+                                    <img src="{% if collab.user.id|get_profile_pic_url %} {{ collab.user.id|get_profile_pic_url}} {% else %} /static/profiles/default.png {% endif %}" class="rounded-circle" width="48" height="48" alt="">
                                 </a>
                             </div>
                             <div class="col-10 px-4">
                                 <p class="mb-0 mt-3">
-                                    <a href="#" class="text-decoration-none text-body-emphasis">
+                                    <a href="{% url 'profile' collab.user.id %}" class="text-decoration-none text-body-emphasis">
                                         {{ collab.user.id|get_profile_name }}
                                     </a>
                                 </p>

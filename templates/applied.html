@@ -8,7 +8,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-2 d-flex align-items-center justify-content-end">
-                <a href="{% url 'index' %}" class="pb-4 mb-1">
+                <a href="{{ request.META.HTTP_REFERER }}" class="pb-4 mb-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                          fill="none">
                         <path d="M10.6662 19L3.99951 12M3.99951 12L10.6662 5M3.99951 12L19.9995 12"
@@ -97,7 +97,7 @@
                                                   fill="#222222"></path>
                                         </svg>
                                     </a>
-                                      4
+                                      0
                                 </div>
                                 <div class="col-1 pe-4 d-flex align-items-center justify-content-end">
                                     <a href="{% url 'bookmark_app_post' post.app_post.id %}" onclick="" class="text-decoration-none">
@@ -127,8 +127,7 @@
                     <div class="col-2"></div>
                     <div class="col-8">
                         <div class="row pt-3 d-flex align-items-center justify-content-center ">
-                            <p class="text-center opacity-75 p-5">There are currently no applications for your
-                                collaborations.</p>
+                            <p class="text-center opacity-75 p-5">You have not applied for any collaborations yet.</p>
                         </div>
                     </div>
                     <div class="col-2"></div>
