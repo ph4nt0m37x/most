@@ -96,10 +96,23 @@ def index(request):
 @login_required(login_url='signin')
 def search(request):
     query = request.GET.get('query')
-    profiles = Profile.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    profiles_search = Profile.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    my_collaborations = Collaboration.objects.filter(user=request.user)
+    collaborations = (
+        Collaboration.objects.filter(collaborator__in=my_collaborations.values_list('collaborator'))).values_list(
+        'collaborator')
+    mutual_collaborations = Profile.objects.filter(id__in=collaborations)
+    profiles = Profile.objects.exclude(user__in=mutual_collaborations.values_list('user')).exclude(user=request.user)[
+               :3]
+    mutual = False
+    if mutual_collaborations.count() > 0:
+        mutual = True
     return render(request, 'search.html',
                   context={'profiles': profiles,
+                           'profiles_search': profiles_search,
                            'query': query,
+                           'mutuals': mutual_collaborations[:3],
+                           'mutual': mutual,
                            'my_profile_id': my_profile_id(request)})
 
 @login_required(login_url='signin')
