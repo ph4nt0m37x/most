@@ -12,39 +12,36 @@
         </div>
         <div class="col-4">
             <form action="{% url 'browse_filter' %}">
-                <select name="filter">
+            <div class="row justify-content-between">
+                <div class="col-5">
+                    <select name="filter" class="form-select">
                     <option value="all">---</option>
                     {% for tag in tags %}
                     <option value="{{ tag.name }}" {% if filter == tag.name %} selected {% endif %}>{{ tag.name }}</option>
                     {% endfor %}
                 </select>
-                <input type="date" name="date_filter" value="{{ date_filter }}">
-            <button type="submit">search</button>
+                </div>
+                <div class="col-6">
+                    <input class="form-control" type="date" name="date_filter" value="{{ date_filter }}">
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
             </form>
         </div>
-        <!--
-        <div class="col-2">
-                    <label for="filter" class="form-label">Filter</label>
-            <select class="form-select" id="filter">
-                <option selected="">Select filters</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="col-2">
-                    <label for="calendar" class="form-label">Filter</label>
-            <select class="form-select" id="calendar">
-                <option selected="">Select filters</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-    -->
     </div>
     <hr/>
     <div class="row">
+        {% if not posts %}
+        <div class="text-center py-5">
+        <p>No posts found.</p>
+        </div>
+        {% endif %}
         {% for post in posts %}
         <div class="col-6 pt-3 pb-2">
             <div class="border rounded-4">
@@ -89,7 +86,7 @@
                     <div class="col-10 pb-3 ps-5 text-start">
                         <a href="{% url 'post' post.id %}"><button type="button" class="btn border rounded-pill btn-light link-body-emphasis">See more</button></a>
                     </div>
-                    <div class="col-2 d-flex align-items-center pb-3 justify-content-end pe-5">
+                    <div class="col-1 pe-0 d-flex align-items-center justify-content-end">
                         <a href="" onclick="" class="text-decoration-none pe-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15"
                                  fill="none">
@@ -97,13 +94,15 @@
                                       fill="#222222"></path>
                             </svg>
                         </a>
-                          4
+                        4
+                    </div>
+                    <div class="col-1 pe-4 d-flex align-items-center justify-content-end">
                         <a href="{% url 'bookmark_app_post' post.id %}" onclick="" class="text-decoration-none">
                             {% if bookmarked %}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15" fill="none">
-                                <path d="M7.88684 0C8.46149 -9.14525e-06 8.93596 -0.000299274 9.32239 0.03125C9.72374 0.0640501 10.093 0.134999 10.4396 0.311523C10.977 0.585391 11.4147 1.02216 11.6886 1.55957C11.8652 1.90622 11.9361 2.27626 11.9689 2.67773C12.0004 3.06419 12.0001 3.53859 12.0001 4.11328V14.2861C12 14.5649 11.8373 14.818 11.5841 14.9346C11.3307 15.0511 11.0322 15.0096 10.8204 14.8281L6.28528 10.9404L1.75012 14.8281C1.53841 15.0094 1.24069 15.0509 0.987427 14.9346C0.734127 14.8181 0.571578 14.5649 0.571411 14.2861V4.11328C0.571402 3.53858 0.571119 3.0642 0.602661 2.67773C0.635465 2.27624 0.7063 1.90624 0.882935 1.55957C1.1568 1.02231 1.59372 0.585383 2.13098 0.311523C2.47762 0.134923 2.84769 0.0640506 3.24915 0.03125C3.63559 -0.000282439 4.11005 -9.10559e-06 4.68469 0H7.88684Z"
-                                      fill="#13121B"></path>
-                            </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15" fill="none">
+                                    <path d="M7.88684 0C8.46149 -9.14525e-06 8.93596 -0.000299274 9.32239 0.03125C9.72374 0.0640501 10.093 0.134999 10.4396 0.311523C10.977 0.585391 11.4147 1.02216 11.6886 1.55957C11.8652 1.90622 11.9361 2.27626 11.9689 2.67773C12.0004 3.06419 12.0001 3.53859 12.0001 4.11328V14.2861C12 14.5649 11.8373 14.818 11.5841 14.9346C11.3307 15.0511 11.0322 15.0096 10.8204 14.8281L6.28528 10.9404L1.75012 14.8281C1.53841 15.0094 1.24069 15.0509 0.987427 14.9346C0.734127 14.8181 0.571578 14.5649 0.571411 14.2861V4.11328C0.571402 3.53858 0.571119 3.0642 0.602661 2.67773C0.635465 2.27624 0.7063 1.90624 0.882935 1.55957C1.1568 1.02231 1.59372 0.585383 2.13098 0.311523C2.47762 0.134923 2.84769 0.0640506 3.24915 0.03125C3.63559 -0.000282439 4.11005 -9.10559e-06 4.68469 0H7.88684Z"
+                                          fill="#13121B"></path>
+                                </svg>
                             {% else %}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15"
                                      fill="none">

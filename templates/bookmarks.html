@@ -41,7 +41,7 @@
             <div class="row d-flex align-items-left">
                 <div class="col-3"></div>
                 <div class="col-6 pt-3 pb-2">
-                    <div class="border rounded-4">
+                    <div class="border rounded-4 p-1">
                         <div class="row pt-3">
                             <div class="col-10 d-flex align-items-center ps-3">
                                 <div class="ps-4 pe-3">
@@ -83,7 +83,7 @@
                             <div class="col-10 pb-3 ps-5 text-start">
                                 <a href="{% url 'post' post.app_post.id %}"><button type="button" class="btn border rounded-pill btn-light link-body-emphasis">See more</button></a>
                             </div>
-                            <div class="col-2 d-flex align-items-center pb-3 justify-content-end pe-5">
+                            <div class="col-1 pe-0 d-flex align-items-center justify-content-end">
                                 <a href="" onclick="" class="text-decoration-none pe-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15"
                                          fill="none">
@@ -92,6 +92,8 @@
                                     </svg>
                                 </a>
                                   4
+                            </div>
+                            <div class="col-1 pe-4 d-flex align-items-center justify-content-end">
                                 <a href="{% url 'bookmark_app_post' post.app_post.id %}" onclick="" class="text-decoration-none">
                                     {% if bookmarked %}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="15" viewBox="0 0 12 15" fill="none">
@@ -120,7 +122,7 @@
             <div class="row d-flex align-items-center">
                 <div class="col-3"></div>
                 <div class="col-6 pt-3 pb-2">
-                    <div class="border rounded-4">
+                    <div class="border rounded-4 p-1">
                         <div class="row pt-3">
                             <div class="col-10 d-flex align-items-center ps-3">
                                 <div class="px-3">

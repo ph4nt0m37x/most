@@ -10,187 +10,46 @@
             <div class="col-2 text-start">
             </div>
             <div class="col-7 p-5">
-                <h5>Search results for "insert whatever variable is searched here"</h5>
+                <h5>Search results for '{{ query }}'</h5>
                 <hr/>
+            {% if profiles %}
+                {% for profile in profiles %}
                 <div class="row d-flex align-items-center px-4 py-1">
                     <div class="border rounded-4 mb-2 row">
                         <div class="col-2 d-flex align-items-center justify-content-center">
                             <a href="#" class="">
-                                <img src="" class="rounded-circle" width="64" height="64" alt=""/>
+                                <img src="{{ profile.profile_pic }}" class="rounded-circle" width="64" height="64" alt=""/>
                             </a>
                         </div>
                         <div class="col-6 pe-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
+                            <p class="mb-0 mt-3"><a href="{% url 'profile' profile.user_id %}" class="text-decoration-none text-body-emphasis">
+                                {{ profile.first_name }} {{ profile.last_name }}</a></p>
                             <p class="mb-1 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">Faculty
-                                of Computer Science</a></p>
-                            <p class="mb-3 small"><a href=""
+                                                     class="text-decoration-none text-secondary link-body-emphasis">
+                                {{ profile.bio }}
+                            </a></p>
+                            <p class="mb-3 small"><a href="{% url 'collaborations' profile.user_id %}"
                                                      class="text-decoration-none text-secondary link-body-emphasis">3
                                 mutual collaborators</a></p>
                         </div>
                         <div class="col-4 d-flex align-items-center justify-content-center">
+                            <a href="{% url 'profile' profile.user_id %}">
                             <button class="btn rounded-pill text-light" data-bs-toggle="modal"
-                                    data-bs-target="#popupModal" style="background-color: #436850">
-                                Collaborate
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16"
-                                     fill="none">
-                                    <g clip-path="url(#clip0_103_3334)">
-                                        <path d="M9.95124 13.535V12.3093C9.95124 11.6591 9.69297 11.0356 9.23323 10.5758C8.77349 10.1161 8.14996 9.85782 7.49979 9.85782H3.20975C2.55959 9.85782 1.93605 10.1161 1.47631 10.5758C1.01658 11.0356 0.758301 11.6591 0.758301 12.3093V13.535M12.4027 5.56778V9.24496M14.2413 7.40637H10.5641M7.80622 4.95492C7.80622 6.30881 6.70867 7.40637 5.35477 7.40637C4.00087 7.40637 2.90332 6.30881 2.90332 4.95492C2.90332 3.60102 4.00087 2.50346 5.35477 2.50346C6.70867 2.50346 7.80622 3.60102 7.80622 4.95492Z"
-                                              stroke="#F5F5F5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_103_3334">
-                                            <rect width="14.7087" height="14.7087" fill="white"
-                                                  transform="translate(0.145508 0.664875)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
+                                    data-bs-target="#collaborationModal" style="background-color: #436850">
+                                View profile
                             </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row d-flex align-items-center px-4 py-1">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center justify-content-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="64" height="64" alt=""/>
                             </a>
                         </div>
-                        <div class="col-6 pe-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-1 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">Faculty
-                                of Computer Science</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                        <div class="col-4 d-flex align-items-center justify-content-center">
-                            <button class="btn rounded-pill text-light" data-bs-toggle="modal"
-                                    data-bs-target="#popupModal" style="background-color: #436850">
-                                Collaborate
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16"
-                                     fill="none">
-                                    <g clip-path="url(#clip0_103_3334)">
-                                        <path d="M9.95124 13.535V12.3093C9.95124 11.6591 9.69297 11.0356 9.23323 10.5758C8.77349 10.1161 8.14996 9.85782 7.49979 9.85782H3.20975C2.55959 9.85782 1.93605 10.1161 1.47631 10.5758C1.01658 11.0356 0.758301 11.6591 0.758301 12.3093V13.535M12.4027 5.56778V9.24496M14.2413 7.40637H10.5641M7.80622 4.95492C7.80622 6.30881 6.70867 7.40637 5.35477 7.40637C4.00087 7.40637 2.90332 6.30881 2.90332 4.95492C2.90332 3.60102 4.00087 2.50346 5.35477 2.50346C6.70867 2.50346 7.80622 3.60102 7.80622 4.95492Z"
-                                              stroke="#F5F5F5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_103_3334">
-                                            <rect width="14.7087" height="14.7087" fill="white"
-                                                  transform="translate(0.145508 0.664875)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            </button>
-                        </div>
                     </div>
                 </div>
-                <div class="row d-flex align-items-center px-4 py-1">
-                    <div class="border rounded-4 mb-2 row">
-                        <div class="col-2 d-flex align-items-center justify-content-center">
-                            <a href="#" class="">
-                                <img src="" class="rounded-circle" width="64" height="64" alt=""/>
-                            </a>
-                        </div>
-                        <div class="col-6 pe-4">
-                            <p class="mb-0 mt-3"><a href="#" class="text-decoration-none text-body-emphasis">Name
-                                Lastname</a></p>
-                            <p class="mb-1 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">Faculty
-                                of Computer Science</a></p>
-                            <p class="mb-3 small"><a href=""
-                                                     class="text-decoration-none text-secondary link-body-emphasis">3
-                                mutual collaborators</a></p>
-                        </div>
-                        <div class="col-4 d-flex align-items-center justify-content-center">
-                            <button class="btn rounded-pill text-light" data-bs-toggle="modal"
-                                    data-bs-target="#popupModal" style="background-color: #436850">
-                                Collaborate
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16"
-                                     fill="none">
-                                    <g clip-path="url(#clip0_103_3334)">
-                                        <path d="M9.95124 13.535V12.3093C9.95124 11.6591 9.69297 11.0356 9.23323 10.5758C8.77349 10.1161 8.14996 9.85782 7.49979 9.85782H3.20975C2.55959 9.85782 1.93605 10.1161 1.47631 10.5758C1.01658 11.0356 0.758301 11.6591 0.758301 12.3093V13.535M12.4027 5.56778V9.24496M14.2413 7.40637H10.5641M7.80622 4.95492C7.80622 6.30881 6.70867 7.40637 5.35477 7.40637C4.00087 7.40637 2.90332 6.30881 2.90332 4.95492C2.90332 3.60102 4.00087 2.50346 5.35477 2.50346C6.70867 2.50346 7.80622 3.60102 7.80622 4.95492Z"
-                                              stroke="#F5F5F5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_103_3334">
-                                            <rect width="14.7087" height="14.7087" fill="white"
-                                                  transform="translate(0.145508 0.664875)"></rect>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center">
+                    <p>No results found</p>
                 </div>
+            {% endif %}
             </div>
-            <!-- Collaboration Modal -->
-            <div class="modal fade" id="popupModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content px-3">
-                        <div class="modal-header pt-3 pb-2">
-                            <h5 class="modal-title fw-semibold px-3">Collaboration Request</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
 
-                            <div class="row p-3">
-                                <label for="subject" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="subject"
-                                       aria-describedby="emailHelp" placeholder="Write your title here...">
-
-                            </div>
-                            <div class="row p-3">
-                                <label for="body" class="form-label">Description</label>
-                                <textarea class="form-control" id="body"
-                                          placeholder="Write your description here..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row p-3 pt-1 pb-4">
-                            <div class="col-4 d-flex align-items-center justify-content-center">
-                                <a href="" class="text-decoration-none mb-0" style="color: #436850"><p class="mb-0">
-                                    Cancel</p>
-                                </a>
-                            </div>
-                            <div class="col-4"></div>
-                            <div class="col-4 d-flex align-items-center justify-content-center">
-                                <button type="submit" class="btn text-light" data-bs-toggle="modal"
-                                        data-bs-target="#successModal" style="background-color: #436850">Send
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Success Modal -->
-            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered w-25">
-                    <div class="modal-content py-4 mx-0">
-                        <div class="row">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45"
-                                 fill="none">
-                                <circle cx="22.5" cy="22.5" r="16.875" stroke="#436850" stroke-width="3"></circle>
-                                <path d="M15 22.5L20.625 28.125L30 16.875" stroke="#436850" stroke-width="3"></path>
-                            </svg>
-                        </div>
-                        <div class="row">
-                            <h2 class="text-center fw-semibold" style="color: #436850">Success!</h2>
-                        </div>
-                        <div class="row">
-                            <p class="text-center text-secondary">Your collaboration request has been sent.</p>
-                        </div>
-                        <div class="row d-flex align-items-center justify-content-center">
-                            <button type="submit" class="btn text-light text-center w-25" data-bs-dismiss="modal"
-                                    style="background-color: #436850">OK
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- Sidebar -->
 
             <div class="col-3 text-start">
