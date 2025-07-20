@@ -10,7 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    bio = models.TextField(null=True, blank=True)
+    occupation = models.CharField(max_length=200, null=True, blank=True)
     contact = models.CharField(max_length=100, null=True, blank=True)
     website = models.URLField(null=True, blank=True)
     profile_pic = models.ImageField(upload_to='profiles/', null=True, blank=True)
